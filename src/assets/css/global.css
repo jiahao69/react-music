@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box;
+
+  /* 禁止文字选中 */
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  color: #333;
+}
+
+img {
+  width: 100%;
+  display: block;
+}
