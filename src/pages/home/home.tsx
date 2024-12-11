@@ -1,40 +1,53 @@
-import { memo, useEffect } from "react"
+import { memo, useState, useEffect } from "react"
 import type { FC, ReactNode } from "react"
 
 import { HomeWrapper } from "./home-style"
-import { useHomeStore } from "@/store/modules"
+import { getBanners, getPlaylists } from "@/service/modules"
 
 import HeaderCarousel from "./c-cpts/header-carousel/header-carousel"
 import NavBar from "@/components/nav-bar/nav-bar"
-import PlaylistItem from "./c-cpts/playlist-item/playlist-item"
+import PlaylistItem from "@/components/playlist-item/playlist-item"
 
 interface IProps {
   children?: ReactNode
 }
 
-const playlistTypeList = [
+const playlistCatetoryList = [
   { name: "华语" },
-  { name: "粤语" },
-  { name: "摇滚" },
-  { name: "民谣" },
+  { name: "翻唱" },
+  { name: "古风" },
+  { name: "伤感" },
   { name: "欧美" }
 ]
 
 const Home: FC<IProps> = () => {
-  const banners = useHomeStore((state: any) => state.banners)
-  const recommendedPlaylist = useHomeStore(
-    (state: any) => state.recommendedPlaylist
-  )
+  const [banners, setBanners] = useState([])
+  const [playlists, setPlaylists] = useState([])
 
-  const getBanners = useHomeStore((state: any) => state.getBanners)
-  const getRecommendedPlaylist = useHomeStore(
-    (state: any) => state.getRecommendedPlaylist
-  )
+  const _getBanners = async () => {
+    const { banners } = await getBanners()
+
+    setBanners(banners)
+  }
+
+  const _getPlaylists = async (cat: string) => {
+    const { playlists } = await getPlaylists({ cat, limit: 5 })
+
+    const newPlaylist = playlists.map((item: any) => {
+      const index = item.coverImgUrl.indexOf("?")
+
+      const coverImgUrl = item.coverImgUrl.slice(0, index)
+
+      return { ...item, coverImgUrl }
+    })
+
+    setPlaylists(newPlaylist)
+  }
 
   useEffect(() => {
-    getBanners()
+    _getBanners()
 
-    getRecommendedPlaylist("华语")
+    _getPlaylists(playlistCatetoryList[0].name)
   }, [])
 
   return (
@@ -47,9 +60,9 @@ const Home: FC<IProps> = () => {
           <div className="playlist-header-title">推荐歌单</div>
 
           <NavBar
-            list={playlistTypeList}
+            list={playlistCatetoryList}
             onItemClick={(item: any) => {
-              getRecommendedPlaylist(item.name)
+              _getPlaylists(item.name)
             }}
           />
 
@@ -57,7 +70,7 @@ const Home: FC<IProps> = () => {
         </div>
 
         <div className="playlists">
-          {recommendedPlaylist.map((item: any) => (
+          {playlists.map((item: any) => (
             <PlaylistItem item={item} key={item.id} />
           ))}
         </div>

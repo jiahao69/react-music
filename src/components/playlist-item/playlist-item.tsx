@@ -14,6 +14,12 @@ interface IProps {
 const PlaylistItem: FC<IProps> = (props) => {
   const { item } = props
 
+  const getPlayCount = (count: number) => {
+    if (count < 10 * 10000) return count
+
+    return `${Math.floor(count / 10000)}万`
+  }
+
   return (
     <PlaylistItemWrapper>
       <div className="playlist-pic-wrapper">
@@ -22,7 +28,12 @@ const PlaylistItem: FC<IProps> = (props) => {
           src={item.coverImgUrl}
           preview={false}
           placeholder={
-            <Image preview={false} src={getImg("def270.78de220")} width={264} />
+            <Image
+              preview={false}
+              src={getImg("placeholder_bg")}
+              width={264}
+              height={264}
+            />
           }
         />
 
@@ -33,7 +44,7 @@ const PlaylistItem: FC<IProps> = (props) => {
 
       <div className="playlist-title">{item.name}</div>
 
-      <div className="playlist-count">{`${item.playCount / 10000}万`}</div>
+      <div className="playlist-count">{getPlayCount(item.playCount)}</div>
     </PlaylistItemWrapper>
   )
 }

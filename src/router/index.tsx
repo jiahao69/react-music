@@ -4,7 +4,7 @@ import { type RouteObject } from "react-router-dom"
 const Home = lazy(() => import("@/pages/home/home"))
 const Rankings = lazy(() => import("@/pages/rankings"))
 const Singers = lazy(() => import("@/pages/singers"))
-const Playlists = lazy(() => import("@/pages/playlists"))
+const Playlists = lazy(() => import("@/pages/playlists/playlists"))
 const Mvs = lazy(() => import("@/pages/mvs"))
 
 export const routes: RouteObject[] = [
