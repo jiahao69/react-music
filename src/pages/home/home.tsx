@@ -1,5 +1,6 @@
 import { memo, useState, useEffect } from "react"
 import type { FC, ReactNode } from "react"
+import { useNavigate } from "react-router-dom"
 
 import { HomeWrapper } from "./home-style"
 import { getBanners, getPlaylists } from "@/service/modules"
@@ -12,24 +13,29 @@ interface IProps {
   children?: ReactNode
 }
 
+// 歌单分类列表
 const playlistCatetoryList = [
   { name: "华语" },
-  { name: "翻唱" },
+  { name: "流行" },
   { name: "古风" },
   { name: "伤感" },
   { name: "欧美" }
 ]
 
 const Home: FC<IProps> = () => {
+  const navigate = useNavigate()
+
   const [banners, setBanners] = useState([])
   const [playlists, setPlaylists] = useState([])
 
+  // 获取轮播图列表
   const _getBanners = async () => {
     const { banners } = await getBanners()
 
     setBanners(banners)
   }
 
+  // 获取推荐歌单列表
   const _getPlaylists = async (cat: string) => {
     const { playlists } = await getPlaylists({ cat, limit: 5 })
 
@@ -61,12 +67,15 @@ const Home: FC<IProps> = () => {
 
           <NavBar
             list={playlistCatetoryList}
-            onItemClick={(item: any) => {
+            onItemClick={(item) => {
               _getPlaylists(item.name)
             }}
           />
 
-          <div className="more-btn">{`更多 >`}</div>
+          <div
+            className="more-btn"
+            onClick={() => navigate("/playlists")}
+          >{`更多 >`}</div>
         </div>
 
         <div className="playlists">

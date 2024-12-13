@@ -6,7 +6,6 @@ export const PlaylistItemWrapper = styled.div`
   &:hover {
     .playlist-pic {
       transform: scale(1.1);
-      transform-origin: center;
     }
 
     .playlist-pic-mask {
@@ -26,6 +25,7 @@ export const PlaylistItemWrapper = styled.div`
 
     .playlist-pic {
       width: 264px;
+      height: 264px;
       transition: transform 0.75s cubic-bezier(0, 1, 0.75, 1);
     }
 
@@ -35,7 +35,6 @@ export const PlaylistItemWrapper = styled.div`
       justify-content: center;
       align-items: center;
       top: 0;
-      bottom: 0;
       left: 0;
       width: 100%;
       height: 100%;
@@ -50,11 +49,10 @@ export const PlaylistItemWrapper = styled.div`
   }
 
   .playlist-title {
+    margin-top: 16px;
     font-size: 16px;
     font-weight: 400;
-    margin-top: 16px;
     cursor: pointer;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

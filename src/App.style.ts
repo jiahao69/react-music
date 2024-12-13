@@ -1,7 +1,7 @@
 import { styled } from "styled-components"
 
 export const AppWrapper = styled.div`
-  .app-wrapper {
+  .app-content {
     padding: 0 256px;
 
     .nav-bar-wrapper {

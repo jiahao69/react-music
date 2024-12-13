@@ -15,11 +15,11 @@ const HeaderCarousel: FC<IProps> = (props) => {
   const [blurBg, setBlurBg] = useState("")
 
   useEffect(() => {
-    if (!banners.length) return
+    if (banners.length) {
+      const imageUrl = banners[0].imageUrl
 
-    const imageUrl = banners[0].imageUrl
-
-    setBlurBg(`${imageUrl}?imageView&blur=40x20`)
+      setBlurBg(`${imageUrl}?imageView&blur=40x20`)
+    }
   }, [banners])
 
   const handleBeforeChange = (_: number, next: number) => {

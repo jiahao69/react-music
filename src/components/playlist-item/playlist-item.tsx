@@ -27,14 +27,7 @@ const PlaylistItem: FC<IProps> = (props) => {
           className="playlist-pic"
           src={item.coverImgUrl}
           preview={false}
-          placeholder={
-            <Image
-              preview={false}
-              src={getImg("placeholder_bg")}
-              width={264}
-              height={264}
-            />
-          }
+          placeholder={<Image src={getImg("placeholder_bg")} preview={false} />}
         />
 
         <div className="playlist-pic-mask">

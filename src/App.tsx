@@ -18,17 +18,13 @@ const navList = [
 function App() {
   const navigate = useNavigate()
 
-  const handleNavItemClick = (item: any) => {
-    navigate(item.path)
-  }
-
   return (
     <AppWrapper>
       <HeaderBar />
 
-      <div className="app-wrapper">
+      <div className="app-content">
         <div className="nav-bar-wrapper">
-          <NavBar list={navList} onItemClick={handleNavItemClick} />
+          <NavBar list={navList} onItemClick={(item) => navigate(item.path!)} />
         </div>
 
         <Suspense fallback="">{useRoutes(routes)}</Suspense>

@@ -30,19 +30,17 @@ const NavBar: FC<IProps> = (props) => {
 
   return (
     <NavBarWrapper>
-      <div className="nav-list">
-        {list?.map((item, index) => (
-          <div
-            className={classNames("nav-item", {
-              "nav-item--active": index === currentIndex
-            })}
-            key={index}
-            onClick={() => haneleNavItemClick(item, index)}
-          >
-            {item.name}
-          </div>
-        ))}
-      </div>
+      {list?.map((item, index) => (
+        <div
+          className={classNames("nav-item", {
+            "nav-item--active": index === currentIndex
+          })}
+          key={item.name}
+          onClick={() => haneleNavItemClick(item, index)}
+        >
+          {item.name}
+        </div>
+      ))}
     </NavBarWrapper>
   )
 }
