@@ -1,11 +1,10 @@
-import { useRoutes, useNavigate } from "react-router-dom"
+import { useRoutes, NavLink } from "react-router-dom"
 import { Suspense } from "react"
 
 import { routes } from "@/router"
 import { AppWrapper } from "./App.style"
 
 import HeaderBar from "@/components/header-bar/header-bar"
-import NavBar from "@/components/nav-bar/nav-bar"
 
 const navList = [
   { name: "推荐", path: "/" },
@@ -16,15 +15,17 @@ const navList = [
 ]
 
 function App() {
-  const navigate = useNavigate()
-
   return (
     <AppWrapper>
       <HeaderBar />
 
       <div className="app-content">
         <div className="nav-bar-wrapper">
-          <NavBar list={navList} onItemClick={(item) => navigate(item.path!)} />
+          {navList.map((item) => (
+            <NavLink className="nav-item" key={item.name} to={item.path}>
+              {item.name}
+            </NavLink>
+          ))}
         </div>
 
         <Suspense fallback="">{useRoutes(routes)}</Suspense>

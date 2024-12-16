@@ -11,7 +11,7 @@ interface INavItem {
 
 interface IProps {
   children?: ReactNode
-  list?: INavItem[]
+  list: INavItem[]
   onItemClick?: (item: INavItem) => void
 }
 
@@ -30,7 +30,7 @@ const NavBar: FC<IProps> = (props) => {
 
   return (
     <NavBarWrapper>
-      {list?.map((item, index) => (
+      {list.map((item, index) => (
         <div
           className={classNames("nav-item", {
             "nav-item--active": index === currentIndex

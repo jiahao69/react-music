@@ -10,6 +10,10 @@ export const NavBarWrapper = styled.div`
     font-size: 14px;
     cursor: pointer;
 
+    &.nav-item--active {
+      font-weight: 600;
+    }
+
     &.nav-item--active::after {
       content: "";
       position: absolute;

@@ -8,13 +8,15 @@ export function getBanners() {
 }
 
 // 获取推荐歌单列表
-export function getPlaylists(data: { cat: string; limit?: number }) {
+export function getPlaylists(params: {
+  cat?: string
+  order?: string
+  limit?: number
+  offset?: number
+}) {
   return request.get({
     url: "/top/playlist",
-    params: {
-      cat: data.cat,
-      limit: data.limit
-    }
+    params
   })
 }
 
