@@ -26,3 +26,11 @@ export function getRankings() {
     url: "/toplist"
   })
 }
+
+// 获取歌单详情
+export function getPlaylistDetail(params: { id: number }) {
+  return request.get({
+    url: "/playlist/detail",
+    params
+  })
+}

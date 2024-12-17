@@ -3,7 +3,12 @@ import type { FC, ReactNode } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { HomeWrapper } from "./home-style"
-import { getBanners, getPlaylists } from "@/service/modules"
+import {
+  getBanners,
+  getPlaylists,
+  getRankings,
+  getPlaylistDetail
+} from "@/service/modules"
 
 import HeaderCarousel from "./c-cpts/header-carousel/header-carousel"
 import NavBar from "@/components/nav-bar/nav-bar"
@@ -27,6 +32,7 @@ const Home: FC<IProps> = () => {
 
   const [banners, setBanners] = useState([])
   const [playlists, setPlaylists] = useState([])
+  const [rankings, setRankings] = useState([])
 
   // 获取轮播图列表
   const _getBanners = async () => {
@@ -50,10 +56,27 @@ const Home: FC<IProps> = () => {
     setPlaylists(newPlaylist)
   }
 
+  // 获取榜单列表
+  const _getRankings = async () => {
+    const { list } = await getRankings()
+
+    const rankings = list.slice(0, 3)
+
+    for (const item of rankings) {
+      const { playlist } = await getPlaylistDetail({ id: item.id })
+
+      item.songs = playlist.tracks.slice(0, 5)
+    }
+
+    setRankings(rankings)
+  }
+
   useEffect(() => {
     _getBanners()
 
     _getPlaylists(playlistCatetoryList[0].name)
+
+    _getRankings()
   }, [])
 
   return (
@@ -90,7 +113,10 @@ const Home: FC<IProps> = () => {
         <div className="rankings-header">
           <div className="rankings-header-title">排行榜</div>
 
-          <div className="more-btn">{`更多 >`}</div>
+          <div
+            className="more-btn"
+            onClick={() => navigate("/rankings")}
+          >{`更多 >`}</div>
         </div>
 
         <div className="rankings"></div>
