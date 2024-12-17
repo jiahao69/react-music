@@ -52,10 +52,10 @@ export const PlaylistItemWrapper = styled.div`
     margin-top: 16px;
     font-size: 16px;
     font-weight: 400;
-    cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 
     &:hover {
       font-weight: bolder;

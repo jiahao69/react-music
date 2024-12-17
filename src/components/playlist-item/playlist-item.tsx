@@ -11,7 +11,7 @@ interface IProps {
   item: { coverImgUrl: string; name: string; playCount: number }
 }
 
-const PlaylistItem: FC<IProps> = (props) => {
+const PlaylistsItem: FC<IProps> = (props) => {
   const { item } = props
 
   const getPlayCount = (count: number) => {
@@ -42,4 +42,4 @@ const PlaylistItem: FC<IProps> = (props) => {
   )
 }
 
-export default memo(PlaylistItem)
+export default memo(PlaylistsItem)

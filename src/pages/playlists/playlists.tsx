@@ -6,39 +6,44 @@ import { PlaylistsWrapper } from "./playlists-style"
 import { getPlaylists, getPlaylistCats } from "@/service/modules"
 
 import PlaylistItem from "@/components/playlist-item/playlist-item"
+import PlaylistFilter from "./ c-cpts/playlist-filter/playlist-filter"
 
 interface IProps {
   children?: ReactNode
 }
 
+// 每页条数
+const PAGE_SIZE = 20
+
 const Playlists: FC<IProps> = () => {
-  const [playlists, setPlaylists] = useState([])
   const [playlistsTotal, setPlaylistsTotal] = useState(0)
-  const [catList, setCatList] = useState<any[]>([])
-  const catRef = useRef("华语")
+  const [currentPage, setCurrentPage] = useState(1)
+  const [playlists, setPlaylists] = useState([])
+  const [playlistsCatList, setPlaylistsCatList] = useState<any[]>([])
+  const catRef = useRef("")
 
   const _getPlaylistCats = async () => {
     const { categories, sub } = await getPlaylistCats()
 
     const catList = Object.keys(categories).map((key) => {
-      const filterList = sub.filter((item: any) => +item.category === +key)
+      const list = sub.filter((item: any) => +item.category === +key)
 
-      return { name: categories[key], list: filterList }
+      return { name: categories[key], list }
     })
 
-    console.log(catList)
+    catList.unshift({ name: "默认", list: [{ name: "全部" }] })
 
-    setCatList(catList)
+    setPlaylistsCatList(catList)
   }
 
-  const _getPlaylists = async (cat: string, offset = 0, isMore = false) => {
+  const _getPlaylists = async (cat = "全部", offset = 0, isMore = false) => {
     const result = await getPlaylists({
       cat,
       offset,
-      limit: 20
+      limit: PAGE_SIZE
     })
 
-    const newPlaylists = result.playlists.map((item: any) => {
+    const playlists = result.playlists.map((item: any) => {
       const index = item.coverImgUrl.indexOf("?")
 
       const coverImgUrl = item.coverImgUrl.slice(0, index)
@@ -46,45 +51,60 @@ const Playlists: FC<IProps> = () => {
       return { ...item, coverImgUrl }
     })
 
-    if (isMore) {
-      // 翻页后滚动到顶部
-      document.body.scrollIntoView()
-    }
+    setPlaylists(playlists)
 
+    // 切换歌单分类，重新设置歌单数量，重置当前页数
     if (!isMore) {
       setPlaylistsTotal(result.total)
-    }
 
-    setPlaylists(newPlaylists)
+      setCurrentPage(1)
+    }
   }
 
   const handlePageChange = (page: number) => {
-    _getPlaylists(catRef.current, (page - 1) * 20, true)
+    // 翻页滚动回到顶部
+    document.body.scrollIntoView()
+
+    setCurrentPage(page)
+
+    _getPlaylists(catRef.current, (page - 1) * PAGE_SIZE, true)
   }
 
   useEffect(() => {
-    _getPlaylists(catRef.current)
+    _getPlaylists()
 
     _getPlaylistCats()
   }, [])
 
   return (
     <PlaylistsWrapper>
+      <PlaylistFilter
+        list={playlistsCatList}
+        onItemClick={(cat) => {
+          catRef.current = cat
+
+          _getPlaylists(cat)
+        }}
+      />
+
       <div className="playlists">
         {playlists.map((item: any) => (
           <PlaylistItem item={item} key={item.id} />
         ))}
       </div>
 
-      <div className="pagination">
-        <Pagination
-          defaultCurrent={1}
-          defaultPageSize={20}
-          total={playlistsTotal}
-          showSizeChanger={false}
-          onChange={handlePageChange}
-        />
-      </div>
+      {!!playlists.length && (
+        <div className="pagination-wrapper">
+          <Pagination
+            current={currentPage}
+            defaultCurrent={1}
+            defaultPageSize={20}
+            total={playlistsTotal}
+            showSizeChanger={false}
+            onChange={handlePageChange}
+          />
+        </div>
+      )}
     </PlaylistsWrapper>
   )
 }
