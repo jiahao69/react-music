@@ -32,7 +32,7 @@ const Home: FC<IProps> = () => {
 
   const [banners, setBanners] = useState([])
   const [playlists, setPlaylists] = useState([])
-  const [rankings, setRankings] = useState([])
+  const [rankings, setRankings] = useState<any[]>([])
 
   // 获取轮播图列表
   const _getBanners = async () => {
@@ -60,13 +60,20 @@ const Home: FC<IProps> = () => {
   const _getRankings = async () => {
     const { list } = await getRankings()
 
-    const rankings = list.slice(0, 3)
+    const ids: number[] = list.slice(0, 5).map((item: any) => item.id)
 
-    for (const item of rankings) {
-      const { playlist } = await getPlaylistDetail({ id: item.id })
+    const promises = ids.map((id) => getPlaylistDetail({ id }))
 
-      item.songs = playlist.tracks.slice(0, 5)
-    }
+    const result = await Promise.all(promises)
+
+    const rankings = result.map((item) => {
+      const { playlist } = item
+
+      return {
+        ...playlist,
+        tracks: playlist.tracks.slice(0, 5)
+      }
+    })
 
     setRankings(rankings)
   }
@@ -84,7 +91,7 @@ const Home: FC<IProps> = () => {
       <HeaderCarousel banners={banners} />
 
       {/* 推荐歌单 */}
-      <div className="recommend-playlist">
+      <div className="playlist-wrapper">
         <div className="playlist-header">
           <div className="playlist-header-title">推荐歌单</div>
 

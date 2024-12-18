@@ -2,9 +2,10 @@ import { memo } from "react"
 import type { FC, ReactNode } from "react"
 import { PlayCircleFilled } from "@ant-design/icons"
 import { Image } from "antd"
+import { IoPlayOutline } from "react-icons/io5"
 
-import { getImg } from "@/utils/files"
 import { PlaylistItemWrapper } from "./playlist-item-style"
+import { getImg } from "@/utils/files"
 
 interface IProps {
   children?: ReactNode
@@ -15,9 +16,9 @@ const PlaylistsItem: FC<IProps> = (props) => {
   const { item } = props
 
   const getPlayCount = (count: number) => {
-    if (count < 10 * 10000) return count
+    if (count < 10000) return count
 
-    return `${Math.floor(count / 10000)}万`
+    return `${(count / 10000).toFixed(1)}万`
   }
 
   return (
@@ -37,7 +38,11 @@ const PlaylistsItem: FC<IProps> = (props) => {
 
       <div className="playlist-title">{item.name}</div>
 
-      <div className="playlist-count">{getPlayCount(item.playCount)}</div>
+      <div className="playlist-count-wrapper">
+        <IoPlayOutline style={{ color: "#999999" }} />
+
+        <div className="playlist-count">{getPlayCount(item.playCount)}</div>
+      </div>
     </PlaylistItemWrapper>
   )
 }

@@ -1,6 +1,6 @@
 import { memo, useState } from "react"
 import type { FC, ReactNode } from "react"
-import { DownOutlined } from "@ant-design/icons"
+import { FaAngleDown } from "react-icons/fa6"
 import classNames from "classnames"
 
 import { PlaylistsFilterWrapper } from "./playlist-filter-style"
@@ -24,20 +24,27 @@ const PlaylistsFilter: FC<IProps> = (props) => {
         onClick={() => setShowPanel(!showPanel)}
       >
         <span className="current-catetory-name">{currentCat}</span>
-        <DownOutlined rotate={showPanel ? 180 : 0} />
+
+        <FaAngleDown
+          style={{ transform: `rotate(${showPanel ? "180deg" : 0})` }}
+        />
       </div>
 
       {showPanel && (
         <div className="catetory-panel">
           {list.map((item) => (
-            <div className="catetory-item">
-              <div className="catetory-name">{item.name}</div>
+            <div className="catetory-item" key={item.name}>
+              <div style={{ display: "flex" }}>
+                <div className="catetory-name">{item.name}</div>
+              </div>
+
               <div className="catetory-detail-list">
                 {item.list.map((item: any) => (
                   <div
                     className={classNames("catetory-detail-item", {
                       active: item.name === currentCat
                     })}
+                    key={item.name}
                     onClick={() => {
                       onItemClick && onItemClick(item.name)
                       setCurrentCat(item.name)

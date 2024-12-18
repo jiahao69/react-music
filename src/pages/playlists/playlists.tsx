@@ -1,6 +1,6 @@
-import { memo, useState, useEffect, useRef } from "react"
+import { memo, useState, useEffect, useRef, Fragment } from "react"
 import type { FC, ReactNode } from "react"
-import { Pagination } from "antd"
+import { Pagination, Spin } from "antd"
 
 import { PlaylistsWrapper } from "./playlists-style"
 import { getPlaylists, getPlaylistCats } from "@/service/modules"
@@ -22,6 +22,7 @@ const Playlists: FC<IProps> = () => {
   const [playlistsCatList, setPlaylistsCatList] = useState<any[]>([])
   const catRef = useRef("")
 
+  // 获取歌单分类列表
   const _getPlaylistCats = async () => {
     const { categories, sub } = await getPlaylistCats()
 
@@ -36,6 +37,7 @@ const Playlists: FC<IProps> = () => {
     setPlaylistsCatList(catList)
   }
 
+  // 获取歌单列表
   const _getPlaylists = async (cat = "全部", offset = 0, isMore = false) => {
     const result = await getPlaylists({
       cat,
@@ -53,7 +55,7 @@ const Playlists: FC<IProps> = () => {
 
     setPlaylists(playlists)
 
-    // 切换歌单分类，重新设置歌单数量，重置当前页数
+    // 切换歌单分类，重置歌单数量，重置当前页数
     if (!isMore) {
       setPlaylistsTotal(result.total)
 
@@ -65,6 +67,7 @@ const Playlists: FC<IProps> = () => {
     // 翻页滚动回到顶部
     document.body.scrollIntoView()
 
+    setPlaylists([])
     setCurrentPage(page)
 
     _getPlaylists(catRef.current, (page - 1) * PAGE_SIZE, true)
@@ -83,26 +86,36 @@ const Playlists: FC<IProps> = () => {
         onItemClick={(cat) => {
           catRef.current = cat
 
+          setPlaylists([])
+
           _getPlaylists(cat)
         }}
       />
 
-      <div className="playlists">
-        {playlists.map((item: any) => (
-          <PlaylistItem item={item} key={item.id} />
-        ))}
-      </div>
-
       {!!playlists.length && (
-        <div className="pagination-wrapper">
-          <Pagination
-            current={currentPage}
-            defaultCurrent={1}
-            defaultPageSize={20}
-            total={playlistsTotal}
-            showSizeChanger={false}
-            onChange={handlePageChange}
-          />
+        <Fragment>
+          <div className="playlists">
+            {playlists.map((item: any) => (
+              <PlaylistItem item={item} key={item.id} />
+            ))}
+          </div>
+
+          <div className="pagination-wrapper">
+            <Pagination
+              current={currentPage}
+              defaultCurrent={1}
+              defaultPageSize={20}
+              total={playlistsTotal}
+              showSizeChanger={false}
+              onChange={handlePageChange}
+            />
+          </div>
+        </Fragment>
+      )}
+
+      {!!!playlists.length && (
+        <div className="loading">
+          <Spin size="large" />
         </div>
       )}
     </PlaylistsWrapper>

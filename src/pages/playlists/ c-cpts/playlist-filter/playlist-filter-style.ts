@@ -31,6 +31,7 @@ export const PlaylistsFilterWrapper = styled.div`
 
     .catetory-item {
       .catetory-name {
+        margin-left: 2px;
         margin-bottom: 16px;
         font-size: 14px;
         font-weight: 600;

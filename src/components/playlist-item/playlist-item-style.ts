@@ -62,9 +62,14 @@ export const PlaylistItemWrapper = styled.div`
     }
   }
 
-  .playlist-count {
-    margin-top: 10px;
-    color: #999;
-    font-size: 14px;
+  .playlist-count-wrapper {
+    display: flex;
+    margin-top: 12px;
+
+    .playlist-count {
+      margin-left: 2px;
+      color: #999999;
+      font-size: 14px;
+    }
   }
 `

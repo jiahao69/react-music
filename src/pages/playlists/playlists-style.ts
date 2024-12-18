@@ -12,4 +12,11 @@ export const PlaylistsWrapper = styled.div`
     justify-content: center;
     margin-top: 48px;
   }
+
+  .loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `

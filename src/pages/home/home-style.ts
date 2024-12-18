@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const HomeWrapper = styled.div`
-  .recommend-playlist {
+  .playlist-wrapper {
     .playlist-header {
       display: flex;
       align-items: center;
