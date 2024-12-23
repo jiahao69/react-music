@@ -3,17 +3,20 @@ import type { FC, ReactNode } from "react"
 import { PlayCircleFilled } from "@ant-design/icons"
 import { Image } from "antd"
 import { IoPlayOutline } from "react-icons/io5"
+import { useNavigate } from "react-router-dom"
 
 import { PlaylistItemWrapper } from "./playlist-item-style"
 import { getImg } from "@/utils/files"
 
 interface IProps {
   children?: ReactNode
-  item: { coverImgUrl: string; name: string; playCount: number }
+  item: { id: number; coverImgUrl: string; name: string; playCount: number }
 }
 
 const PlaylistsItem: FC<IProps> = (props) => {
   const { item } = props
+
+  const navigate = useNavigate()
 
   const getPlayCount = (count: number) => {
     if (count < 10000) return count
@@ -23,7 +26,10 @@ const PlaylistsItem: FC<IProps> = (props) => {
 
   return (
     <PlaylistItemWrapper>
-      <div className="playlist-pic-wrapper">
+      <div
+        className="playlist-pic-wrapper"
+        onClick={() => navigate(`/playlist-detail/${item.id}`)}
+      >
         <Image
           className="playlist-pic"
           src={item.coverImgUrl}
@@ -32,11 +38,19 @@ const PlaylistsItem: FC<IProps> = (props) => {
         />
 
         <div className="playlist-pic-mask">
-          <PlayCircleFilled className="play-icon" />
+          <PlayCircleFilled
+            className="play-icon"
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       </div>
 
-      <div className="playlist-title">{item.name}</div>
+      <div
+        className="playlist-title"
+        onClick={() => navigate(`/playlist-detail/${item.id}`)}
+      >
+        {item.name}
+      </div>
 
       <div className="playlist-count-wrapper">
         <IoPlayOutline style={{ color: "#999999" }} />

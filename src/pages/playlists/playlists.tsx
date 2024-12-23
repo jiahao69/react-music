@@ -16,25 +16,25 @@ interface IProps {
 const PAGE_SIZE = 20
 
 const Playlists: FC<IProps> = () => {
-  const [playlistsTotal, setPlaylistsTotal] = useState(0)
+  const [playlistTotal, setPlaylistTotal] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const [playlists, setPlaylists] = useState([])
-  const [playlistsCatList, setPlaylistsCatList] = useState<any[]>([])
+  const [playlists, setPlaylists] = useState<any[]>([])
+  const [playlistCats, setPlaylistCats] = useState<any[]>([])
   const catRef = useRef("")
 
   // 获取歌单分类列表
   const _getPlaylistCats = async () => {
     const { categories, sub } = await getPlaylistCats()
 
-    const catList = Object.keys(categories).map((key) => {
+    const cats = Object.keys(categories).map((key) => {
       const list = sub.filter((item: any) => +item.category === +key)
 
       return { name: categories[key], list }
     })
 
-    catList.unshift({ name: "默认", list: [{ name: "全部" }] })
+    cats.unshift({ name: "默认", list: [{ name: "全部" }] })
 
-    setPlaylistsCatList(catList)
+    setPlaylistCats(cats)
   }
 
   // 获取歌单列表
@@ -57,19 +57,19 @@ const Playlists: FC<IProps> = () => {
 
     // 切换歌单分类，重置歌单数量，重置当前页数
     if (!isMore) {
-      setPlaylistsTotal(result.total)
+      setPlaylistTotal(result.total)
 
       setCurrentPage(1)
     }
   }
 
+  // 翻页时触发
   const handlePageChange = (page: number) => {
-    // 翻页滚动回到顶部
-    document.body.scrollIntoView()
-
+    // 清空原数据，设置新页码
     setPlaylists([])
     setCurrentPage(page)
 
+    // 获取下一页歌单列表
     _getPlaylists(catRef.current, (page - 1) * PAGE_SIZE, true)
   }
 
@@ -82,12 +82,11 @@ const Playlists: FC<IProps> = () => {
   return (
     <PlaylistsWrapper>
       <PlaylistFilter
-        list={playlistsCatList}
+        list={playlistCats}
         onItemClick={(cat) => {
           catRef.current = cat
 
           setPlaylists([])
-
           _getPlaylists(cat)
         }}
       />
@@ -105,7 +104,7 @@ const Playlists: FC<IProps> = () => {
               current={currentPage}
               defaultCurrent={1}
               defaultPageSize={20}
-              total={playlistsTotal}
+              total={playlistTotal}
               showSizeChanger={false}
               onChange={handlePageChange}
             />
