@@ -13,11 +13,10 @@ const PlaylistDetail = lazy(
 
 export const routes: RouteObject[] = [
   {
-    path: "/",
     element: <Layout />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <Home />
       },
       {

@@ -18,6 +18,10 @@ const PlaylistsItem: FC<IProps> = (props) => {
 
   const navigate = useNavigate()
 
+  const navigateToDetail = (id: number) => {
+    navigate(`/playlist-detail/${id}`)
+  }
+
   const getPlayCount = (count: number) => {
     if (count < 10000) return count
 
@@ -28,7 +32,7 @@ const PlaylistsItem: FC<IProps> = (props) => {
     <PlaylistItemWrapper>
       <div
         className="playlist-pic-wrapper"
-        onClick={() => navigate(`/playlist-detail/${item.id}`)}
+        onClick={() => navigateToDetail(item.id)}
       >
         <Image
           className="playlist-pic"
@@ -45,10 +49,7 @@ const PlaylistsItem: FC<IProps> = (props) => {
         </div>
       </div>
 
-      <div
-        className="playlist-title"
-        onClick={() => navigate(`/playlist-detail/${item.id}`)}
-      >
+      <div className="playlist-title" onClick={() => navigateToDetail(item.id)}>
         {item.name}
       </div>
 

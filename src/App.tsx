@@ -1,18 +1,19 @@
+import { Fragment, Suspense } from "react"
 import { useRoutes } from "react-router-dom"
-import { Suspense } from "react"
 
 import { routes } from "@/router"
-import { AppWrapper } from "./App.style"
 
 import HeaderBar from "@/components/header-bar/header-bar"
 
 function App() {
   return (
-    <AppWrapper>
+    <Fragment>
       <HeaderBar />
 
-      <Suspense fallback="">{useRoutes(routes)}</Suspense>
-    </AppWrapper>
+      <div style={{ padding: "0 256px", paddingBottom: "60px" }}>
+        <Suspense fallback="">{useRoutes(routes)}</Suspense>
+      </div>
+    </Fragment>
   )
 }
 

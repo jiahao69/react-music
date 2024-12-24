@@ -1,6 +1,8 @@
-import { memo } from "react"
+import { Fragment, memo } from "react"
 import type { FC, ReactNode } from "react"
-import { Outlet, NavLink } from "react-router-dom"
+import { Outlet } from "react-router-dom"
+
+import NavBar from "@/components/nav-bar/nav-bar"
 
 interface IProps {
   children?: ReactNode
@@ -16,17 +18,13 @@ const navList = [
 
 const Layout: FC<IProps> = () => {
   return (
-    <div className="app-content">
-      <div className="nav-bar-wrapper">
-        {navList.map((item) => (
-          <NavLink className="nav-item" key={item.name} to={item.path}>
-            {item.name}
-          </NavLink>
-        ))}
+    <Fragment>
+      <div style={{ padding: "16px 0", paddingLeft: "206px" }}>
+        <NavBar list={navList} isLink={true} />
       </div>
 
       <Outlet />
-    </div>
+    </Fragment>
   )
 }
 
