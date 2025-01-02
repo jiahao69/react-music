@@ -5,7 +5,7 @@ export const PlaylistDetailWrapper = styled.div`
   justify-content: space-between;
   margin-top: 60px;
 
-  .left-layout {
+  .playlist-left-layout {
     width: 322px;
 
     .playlist-desc {
@@ -23,7 +23,7 @@ export const PlaylistDetailWrapper = styled.div`
     }
   }
 
-  .right-layout {
+  .playlist-right-layout {
     width: 980px;
 
     .playlist-title {
@@ -38,6 +38,12 @@ export const PlaylistDetailWrapper = styled.div`
 
       .playlist-creator-avatar {
         margin-right: 10px;
+      }
+
+      .playlist-creator-name {
+        color: #666;
+        font-size: 18px;
+        font-weight: 400;
       }
     }
   }

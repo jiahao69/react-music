@@ -13,7 +13,7 @@ interface IProps {
   item: { id: number; coverImgUrl: string; name: string; playCount: number }
 }
 
-const PlaylistsItem: FC<IProps> = (props) => {
+const PlaylistItem: FC<IProps> = (props) => {
   const { item } = props
 
   const navigate = useNavigate()
@@ -53,13 +53,13 @@ const PlaylistsItem: FC<IProps> = (props) => {
         {item.name}
       </div>
 
-      <div className="playlist-count-wrapper">
+      <div className="play-count-wrapper">
         <IoPlayOutline style={{ color: "#999999" }} />
 
-        <div className="playlist-count">{getPlayCount(item.playCount)}</div>
+        <div className="play-count">{getPlayCount(item.playCount)}</div>
       </div>
     </PlaylistItemWrapper>
   )
 }
 
-export default memo(PlaylistsItem)
+export default memo(PlaylistItem)

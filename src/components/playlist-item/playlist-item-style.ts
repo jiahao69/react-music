@@ -62,11 +62,11 @@ export const PlaylistItemWrapper = styled.div`
     }
   }
 
-  .playlist-count-wrapper {
+  .play-count-wrapper {
     display: flex;
     margin-top: 12px;
 
-    .playlist-count {
+    .play-count {
       margin-left: 2px;
       color: #999999;
       font-size: 14px;

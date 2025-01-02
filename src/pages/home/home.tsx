@@ -30,8 +30,8 @@ const playlistCatetoryList = [
 const Home: FC<IProps> = () => {
   const navigate = useNavigate()
 
-  const [banners, setBanners] = useState([])
-  const [playlists, setPlaylists] = useState([])
+  const [banners, setBanners] = useState<any[]>([])
+  const [playlists, setPlaylists] = useState<any[]>([])
   const [rankings, setRankings] = useState<any[]>([])
 
   // 获取轮播图列表
@@ -116,7 +116,7 @@ const Home: FC<IProps> = () => {
       </div>
 
       {/* 排行榜 */}
-      <div className="rankings-wrapper">
+      {/* <div className="rankings-wrapper">
         <div className="rankings-header">
           <div className="rankings-header-title">排行榜</div>
 
@@ -127,7 +127,7 @@ const Home: FC<IProps> = () => {
         </div>
 
         <div className="rankings"></div>
-      </div>
+      </div> */}
     </HomeWrapper>
   )
 }
