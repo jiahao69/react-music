@@ -8,7 +8,12 @@ export const PlaylistDetailWrapper = styled.div`
   .playlist-left-layout {
     width: 322px;
 
-    .playlist-desc {
+    .playlist-pic {
+      width: 100%;
+      height: 322px;
+    }
+
+    .playlist-desc-title {
       margin-bottom: 10px;
       margin-top: 40px;
       font-size: 22px;
@@ -16,7 +21,7 @@ export const PlaylistDetailWrapper = styled.div`
       line-height: 30px;
     }
 
-    .playlist-desc-content {
+    .playlist-desc {
       color: #666;
       font-size: 14px;
       line-height: 21px;
@@ -45,6 +50,14 @@ export const PlaylistDetailWrapper = styled.div`
         font-size: 18px;
         font-weight: 400;
       }
+    }
+
+    .playlist-tags {
+      margin-top: 6px;
+      margin-bottom: 32px;
+      line-height: 20px;
+      color: #296294;
+      font-size: 13px;
     }
   }
 `

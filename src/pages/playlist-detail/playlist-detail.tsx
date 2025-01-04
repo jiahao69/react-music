@@ -1,7 +1,7 @@
 import { memo, useState, useEffect } from "react"
 import type { FC, ReactNode } from "react"
 import { useParams } from "react-router-dom"
-import { Image, Avatar } from "antd"
+import { Avatar } from "antd"
 
 import { PlaylistDetailWrapper } from "./playlist-detail-style"
 import { getPlaylistDetail, getSongDetail } from "@/service/modules"
@@ -18,16 +18,20 @@ const PlaylistDetail: FC<IProps> = () => {
   const [playlist, setPlaylist] = useState<any>({})
   const [songs, setSongs] = useState<any[]>([])
 
-  const _getPlaylistDetail = async () => {
-    const { playlist } = await getPlaylistDetail({ id: +id! })
+  const _getPlaylistDetail = () => {
+    getPlaylistDetail({ id: +id! })
+      .then(({ playlist }) => {
+        setPlaylist(playlist)
 
-    setPlaylist(playlist)
+        return playlist
+      })
+      .then(async (playlist) => {
+        const ids = playlist.trackIds.map((item: any) => item.id).join(",")
 
-    const ids = playlist.trackIds.map((item: any) => item.id).join(",")
+        const { songs } = await getSongDetail({ ids })
 
-    const { songs } = await getSongDetail({ ids })
-
-    setSongs(songs)
+        setSongs(songs)
+      })
   }
 
   useEffect(() => {
@@ -38,17 +42,15 @@ const PlaylistDetail: FC<IProps> = () => {
     <PlaylistDetailWrapper>
       <div className="playlist-left-layout">
         <div className="playlist-pic">
-          <Image
-            width={322}
-            height={322}
+          <img
             src={playlist.backgroundCoverUrl || playlist.coverImgUrl}
-            preview={false}
+            alt=""
           />
         </div>
 
-        <div className="playlist-desc">歌单简介</div>
+        <div className="playlist-desc-title">歌单简介</div>
 
-        <div className="playlist-desc-content">{playlist.description}</div>
+        <div className="playlist-desc">{playlist.description}</div>
       </div>
 
       <div className="playlist-right-layout">
@@ -63,6 +65,8 @@ const PlaylistDetail: FC<IProps> = () => {
             {playlist.creator?.nickname}
           </div>
         </div>
+
+        <div className="playlist-tags">{playlist.tags?.join(",")}</div>
 
         <SongList list={songs} />
       </div>

@@ -4,11 +4,14 @@ import { useRoutes } from "react-router-dom"
 import { routes } from "@/router"
 
 import HeaderBar from "@/components/header-bar/header-bar"
+import PlayerBar from "@/components/player-bar/player-bar"
 
 function App() {
   return (
     <>
       <HeaderBar />
+
+      {/* <PlayerBar /> */}
 
       <div style={{ padding: "0 256px", paddingBottom: "60px" }}>
         <Suspense fallback="">{useRoutes(routes)}</Suspense>

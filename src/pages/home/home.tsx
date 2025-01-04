@@ -22,9 +22,9 @@ interface IProps {
 const playlistCatetoryList = [
   { name: "华语" },
   { name: "流行" },
-  { name: "古风" },
-  { name: "伤感" },
-  { name: "欧美" }
+  { name: "摇滚" },
+  { name: "民谣" },
+  { name: "电子" }
 ]
 
 const Home: FC<IProps> = () => {
@@ -83,7 +83,7 @@ const Home: FC<IProps> = () => {
 
     _getPlaylists(playlistCatetoryList[0].name)
 
-    _getRankings()
+    // _getRankings()
   }, [])
 
   return (
