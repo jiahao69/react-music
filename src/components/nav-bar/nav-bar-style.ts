@@ -25,7 +25,7 @@ export const NavBarWrapper = styled.div`
       bottom: 1px;
       width: 100%;
       height: 6px;
-      background: #ffe443;
+      background-color: #ffe443;
       z-index: -1;
     }
   }

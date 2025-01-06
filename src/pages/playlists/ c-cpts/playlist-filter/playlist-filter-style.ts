@@ -24,7 +24,7 @@ export const PlaylistsFilterWrapper = styled.div`
     width: 900px;
     margin-top: 10px;
     padding: 30px 10px 10px 36px;
-    background: #fff;
+    background-color: #fff;
     box-shadow: 0 4px 20px 0 rgba(65, 67, 70, 0.08);
     z-index: 10;
     overflow-y: scroll;
@@ -49,7 +49,7 @@ export const PlaylistsFilterWrapper = styled.div`
 
       .catetory-detail-item {
         padding: 6px 18px;
-        background: #f7f7f7;
+        background-color: #f7f7f7;
         border-radius: 16px;
         color: #000;
         font-size: 14px;
@@ -57,11 +57,11 @@ export const PlaylistsFilterWrapper = styled.div`
         cursor: pointer;
 
         &:hover {
-          background: #ffe12c;
+          background-color: #ffe12c;
         }
 
         &.active {
-          background: #ffe12c;
+          background-color: #ffe12c;
         }
       }
     }

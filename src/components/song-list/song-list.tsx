@@ -4,6 +4,9 @@ import { Table, ConfigProvider } from "antd"
 
 import { SongListWrapper } from "./song-list-style"
 import { getImg } from "@/utils/files"
+import { AudioManage } from "@/manage/audio-manage"
+import { getSongUrl } from "@/service/modules"
+import { useHomeStore } from "@/store/modules"
 
 interface IProps {
   children?: ReactNode
@@ -12,11 +15,14 @@ interface IProps {
 
 const { Column } = Table
 
+const audioManege = new AudioManage()
+
 const SongList: FC<IProps> = (props) => {
   const { list } = props
 
   const [currentPage, setCurrentPage] = useState(1)
   const [hoverRow, setHoverRow] = useState<any>({})
+  const setPlaylists = useHomeStore((state) => state.setPlaylists)
 
   const formatDuration = (duration: number) => {
     const durationSeconds = duration / 1000
@@ -26,6 +32,24 @@ const SongList: FC<IProps> = (props) => {
     const seconds = (Math.round(durationSeconds % 60) + "").padStart(2, "0")
 
     return `${minute}:${seconds}`
+  }
+
+  const handlePlay = async (record: any) => {
+    const { id, al, name, ar, dt } = record
+
+    setPlaylists({
+      id,
+      picUrl: al.picUrl,
+      name,
+      singer: ar[0].name,
+      duration: dt
+    })
+
+    const { data } = await getSongUrl({ id })
+
+    const url = data[0].url
+
+    audioManege.play(url)
   }
 
   return (
@@ -43,6 +67,7 @@ const SongList: FC<IProps> = (props) => {
         <Table
           rowKey="id"
           dataSource={list}
+          loading={!!!list.length}
           rowClassName={(_, index) => ((index + 1) % 2 === 0 ? "even-row" : "")}
           pagination={{
             showSizeChanger: false,
@@ -73,6 +98,7 @@ const SongList: FC<IProps> = (props) => {
 
           <Column
             title="歌曲"
+            width={432}
             render={(_, { name }) => <span className="song">{name}</span>}
           />
 
@@ -84,17 +110,19 @@ const SongList: FC<IProps> = (props) => {
           <Column
             className="duration"
             title="时长"
-            render={(_, { id, dt }) =>
-              hoverRow.id === id ? (
+            width={96}
+            render={(_, record) =>
+              hoverRow.id === record.id ? (
                 <div>
                   <img
+                    onClick={() => handlePlay(record)}
                     style={{ width: "21px", cursor: "pointer" }}
                     src={getImg("mage--play")}
                     alt=""
                   />
                 </div>
               ) : (
-                formatDuration(dt)
+                formatDuration(record.dt)
               )
             }
           />

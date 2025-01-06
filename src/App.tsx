@@ -11,7 +11,7 @@ function App() {
     <>
       <HeaderBar />
 
-      {/* <PlayerBar /> */}
+      <PlayerBar />
 
       <div style={{ padding: "0 256px", paddingBottom: "60px" }}>
         <Suspense fallback="">{useRoutes(routes)}</Suspense>
