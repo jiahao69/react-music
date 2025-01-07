@@ -14,6 +14,8 @@ export const HomeWrapper = styled.div`
       }
 
       .more-btn {
+        display: flex;
+        align-items: center;
         margin-left: 34px;
         color: #999;
         font-size: 13px;
@@ -40,6 +42,8 @@ export const HomeWrapper = styled.div`
       }
 
       .more-btn {
+        display: flex;
+        align-items: center;
         color: #999;
         font-size: 13px;
         cursor: pointer;

@@ -25,5 +25,7 @@ export const useHomeStore = create<State & Actions>((set) => ({
 
   // 设置播放列表
   setPlaylists: (song: IPlaylists) =>
-    set((state) => ({ playlists: [song, ...state.playlists] }))
+    set((state) => ({
+      playlists: [song, ...state.playlists]
+    }))
 }))

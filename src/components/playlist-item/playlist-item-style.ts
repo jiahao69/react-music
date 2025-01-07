@@ -19,8 +19,8 @@ export const PlaylistItemWrapper = styled.div`
     overflow: hidden;
     cursor: pointer;
 
-    &:hover .play-icon {
-      display: block !important;
+    &:hover .play-btn {
+      display: flex !important;
     }
 
     .playlist-pic {
@@ -40,10 +40,18 @@ export const PlaylistItemWrapper = styled.div`
       height: 100%;
       transition: all 0.2s ease-in-out;
 
-      .play-icon {
+      .play-btn {
         display: none;
-        color: #fff;
-        font-size: 60px;
+        justify-content: center;
+        align-items: center;
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background-color: #fff;
+
+        .iconfont {
+          font-size: 30px;
+        }
       }
     }
   }
@@ -64,11 +72,12 @@ export const PlaylistItemWrapper = styled.div`
 
   .play-count-wrapper {
     display: flex;
+    align-items: center;
     margin-top: 12px;
+    color: #999;
 
     .play-count {
       margin-left: 2px;
-      color: #999999;
       font-size: 14px;
     }
   }

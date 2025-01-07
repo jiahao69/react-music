@@ -5,20 +5,15 @@ export const SongListWrapper = styled.div`
     background-color: #fafafa;
   }
 
-  .serial-number {
-    font-weight: 700;
-  }
+  .operate-btns {
+    display: flex;
+    gap: 16px;
 
-  .song {
-    cursor: pointer;
-  }
-
-  .singer {
-    color: #666;
-    cursor: pointer;
-  }
-
-  .duration {
-    color: #666;
+    .iconfont {
+      height: 21px;
+      color: #666;
+      font-size: 20px;
+      cursor: pointer;
+    }
   }
 `

@@ -3,7 +3,6 @@ import type { FC, ReactNode } from "react"
 import { Table, ConfigProvider } from "antd"
 
 import { SongListWrapper } from "./song-list-style"
-import { getImg } from "@/utils/files"
 import { AudioManage } from "@/manage/audio-manage"
 import { getSongUrl } from "@/service/modules"
 import { useHomeStore } from "@/store/modules"
@@ -59,7 +58,8 @@ const SongList: FC<IProps> = (props) => {
           components: {
             Table: {
               headerColor: "#999",
-              rowHoverBg: "#f5f5f5"
+              rowHoverBg: "#f5f5f5",
+              borderColor: "transparent"
             }
           }
         }}
@@ -89,40 +89,50 @@ const SongList: FC<IProps> = (props) => {
           })}
         >
           <Column
-            className="serial-number"
             title="序号"
             width={90}
             align="center"
-            render={(_, _1, index) => (currentPage - 1) * 20 + (index + 1)}
+            render={(_, _1, index) => (
+              <span style={{ fontWeight: 700 }}>
+                {(currentPage - 1) * 20 + (index + 1)}
+              </span>
+            )}
           />
 
           <Column
             title="歌曲"
-            width={432}
-            render={(_, { name }) => <span className="song">{name}</span>}
+            width={400}
+            ellipsis
+            render={(_, { name }) => (
+              <span style={{ cursor: "pointer" }}>{name}</span>
+            )}
           />
 
           <Column
             title="歌手"
-            render={(_, { ar }) => <span className="singer">{ar[0].name}</span>}
+            render={(_, { ar }) => (
+              <span style={{ color: "#666", cursor: "pointer" }}>
+                {ar[0].name}
+              </span>
+            )}
           />
 
           <Column
-            className="duration"
             title="时长"
-            width={96}
             render={(_, record) =>
               hoverRow.id === record.id ? (
-                <div>
-                  <img
+                <div className="operate-btns">
+                  <i
+                    className="iconfont icon-icon_play"
                     onClick={() => handlePlay(record)}
-                    style={{ width: "21px", cursor: "pointer" }}
-                    src={getImg("mage--play")}
-                    alt=""
-                  />
+                  ></i>
+                  <i className="iconfont icon-playlist_icon_add"></i>
+                  <i className="iconfont icon-bar_icon_heart"></i>
                 </div>
               ) : (
-                formatDuration(record.dt)
+                <span style={{ color: "#666" }}>
+                  {formatDuration(record.dt)}
+                </span>
               )
             }
           />

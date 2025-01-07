@@ -1,8 +1,6 @@
 import { memo } from "react"
 import type { FC, ReactNode } from "react"
-import { PlayCircleFilled } from "@ant-design/icons"
 import { Image } from "antd"
-import { IoPlayOutline } from "react-icons/io5"
 import { useNavigate } from "react-router-dom"
 
 import { PlaylistItemWrapper } from "./playlist-item-style"
@@ -42,10 +40,9 @@ const PlaylistItem: FC<IProps> = (props) => {
         />
 
         <div className="playlist-pic-mask">
-          <PlayCircleFilled
-            className="play-icon"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="play-btn" onClick={(e) => e.stopPropagation()}>
+            <i className="iconfont icon-icon_play_1"></i>
+          </div>
         </div>
       </div>
 
@@ -54,7 +51,7 @@ const PlaylistItem: FC<IProps> = (props) => {
       </div>
 
       <div className="play-count-wrapper">
-        <IoPlayOutline style={{ color: "#999999" }} />
+        <i className="iconfont icon-icon_play"></i>
 
         <div className="play-count">{getPlayCount(item.playCount)}</div>
       </div>

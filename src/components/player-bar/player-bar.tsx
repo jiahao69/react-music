@@ -51,7 +51,6 @@ const PlayerBar: FC<IProps> = () => {
               }}
             >
               <Slider
-                value={0}
                 tooltip={{ open: false }}
                 onChange={(value) => {
                   console.log(value)

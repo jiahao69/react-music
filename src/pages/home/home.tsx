@@ -102,10 +102,10 @@ const Home: FC<IProps> = () => {
             }}
           />
 
-          <div
-            className="more-btn"
-            onClick={() => navigate("/playlists")}
-          >{`更多 >`}</div>
+          <div className="more-btn" onClick={() => navigate("/playlists")}>
+            <span>更多</span>
+            <i className="iconfont icon-icon_pagedown"></i>
+          </div>
         </div>
 
         <div className="playlists">
@@ -116,18 +116,18 @@ const Home: FC<IProps> = () => {
       </div>
 
       {/* 排行榜 */}
-      {/* <div className="rankings-wrapper">
+      <div className="rankings-wrapper">
         <div className="rankings-header">
           <div className="rankings-header-title">排行榜</div>
 
-          <div
-            className="more-btn"
-            onClick={() => navigate("/rankings")}
-          >{`更多 >`}</div>
+          <div className="more-btn" onClick={() => navigate("/rankings")}>
+            <span>更多</span>
+            <i className="iconfont icon-icon_pagedown"></i>
+          </div>
         </div>
 
         <div className="rankings"></div>
-      </div> */}
+      </div>
     </HomeWrapper>
   )
 }

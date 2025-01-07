@@ -19,3 +19,23 @@ img {
   width: 100%;
   display: block;
 }
+
+.icon-icon_pagedown:before {
+  content: "\e622";
+}
+
+.icon-icon_play:before {
+  content: "\e634";
+}
+
+.icon-icon_play_1:before {
+  content: "\e665";
+}
+
+.icon-playlist_icon_add:before {
+  content: "\e62d";
+}
+
+.icon-bar_icon_heart:before {
+  content: "\e61b";
+}
