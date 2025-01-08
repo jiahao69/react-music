@@ -23,9 +23,6 @@ importers:
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
-      howler:
-        specifier: ^2.2.4
-        version: 2.2.4
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -45,9 +42,6 @@ importers:
       '@eslint/js':
         specifier: ^9.15.0
         version: 9.16.0
-      '@types/howler':
-        specifier: ^2.2.12
-        version: 2.2.12
       '@types/node':
         specifier: ^22.10.1
         version: 22.10.1
@@ -630,9 +624,6 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
-  '@types/howler@2.2.12':
-    resolution: {integrity: sha512-hy769UICzOSdK0Kn1FBk4gN+lswcj1EKRkmiDtMkUGvFfYJzgaDXmVXkSShS2m89ERAatGIPnTUlp2HhfkVo5g==}
-
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -1014,9 +1005,6 @@ packages:
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
-
-  howler@2.2.4:
-    resolution: {integrity: sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w==}
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -2227,8 +2215,6 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
-  '@types/howler@2.2.12': {}
-
   '@types/json-schema@7.0.15': {}
 
   '@types/node@22.10.1':
@@ -2711,8 +2697,6 @@ snapshots:
   graphemer@1.4.0: {}
 
   has-flag@4.0.0: {}
-
-  howler@2.2.4: {}
 
   iconv-lite@0.6.3:
     dependencies:
