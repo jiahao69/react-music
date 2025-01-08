@@ -20,8 +20,8 @@ const PlayerBar: FC<IProps> = () => {
     play,
     prev,
     next,
-    handleProgressChange,
-    handleProgressCompleteChange
+    onProgressChange,
+    onProgressCompleteChange
   } = usePlayerBar()
 
   return (
@@ -70,8 +70,8 @@ const PlayerBar: FC<IProps> = () => {
                 <Slider
                   value={playProgress}
                   tooltip={{ open: false }}
-                  onChange={handleProgressChange}
-                  onChangeComplete={handleProgressCompleteChange}
+                  onChange={onProgressChange}
+                  onChangeComplete={onProgressCompleteChange}
                 />
               </ConfigProvider>
             </div>

@@ -31,7 +31,7 @@ export function usePlayerBar() {
     })
 
     // 更新播放状态
-    ;["play", "ended"].map((item) =>
+    ;["play", "pause", "ended"].map((item) =>
       audioRef.current?.addEventListener(item, () =>
         setPlayStatus(!audioRef.current?.paused)
       )
@@ -39,7 +39,7 @@ export function usePlayerBar() {
   }, [])
 
   // 手动拖动进度条时触发
-  const handleProgressChange = (progress: number) => {
+  const onProgressChange = (progress: number) => {
     isControlProgress = true
 
     const time = currentPlay.playDuration * (progress / 100)
@@ -49,19 +49,20 @@ export function usePlayerBar() {
   }
 
   //手动拖动进度条结束时触发
-  const handleProgressCompleteChange = (progress: number) => {
+  const onProgressCompleteChange = (progress: number) => {
     isControlProgress = false
 
     const time = currentPlay.playDuration * (progress / 100)
 
     // 更新当前歌曲播放进度
-    if (audioRef.current) audioRef.current.currentTime = time / 1000
+    if (audioRef.current) {
+      audioRef.current.currentTime = time / 1000
+      audioRef.current.play()
+    }
   }
 
   // 播放暂停
   const play = () => {
-    setPlayStatus(!playStatus)
-
     playStatus ? audioRef.current?.pause() : audioRef.current?.play()
   }
 
@@ -88,7 +89,7 @@ export function usePlayerBar() {
     play,
     prev,
     next,
-    handleProgressChange,
-    handleProgressCompleteChange
+    onProgressChange,
+    onProgressCompleteChange
   }
 }
