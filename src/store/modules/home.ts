@@ -1,31 +1,41 @@
 import { create } from "zustand"
 
-interface IPlaylists {
+export interface IPlaylist {
   id: number
   picUrl: string
   name: string
-  singer: string
+  artist: string
   duration: number
+  playDuration: number
+  playUrl: string
 }
 
 type State = {
   playIndex: number
-  playlists: IPlaylists[]
+  playStatus: boolean
+  playlist: IPlaylist[]
 }
 
 type Actions = {
-  setPlaylists: (song: IPlaylists) => void
+  setPlayIndex: (index: number) => void
+  setPlaylist: (song: IPlaylist) => void
 }
 
 export const useHomeStore = create<State & Actions>((set) => ({
   // 当前播放索引
   playIndex: 0,
+  // 播放状态
+  playStatus: false,
   // 播放列表
-  playlists: [],
+  playlist: [],
+
+  setPlayIndex: (index: number) => {
+    set(() => ({ playIndex: index }))
+  },
 
   // 设置播放列表
-  setPlaylists: (song: IPlaylists) =>
+  setPlaylist: (song: IPlaylist) =>
     set((state) => ({
-      playlists: [song, ...state.playlists]
+      playlist: [song, ...state.playlist]
     }))
 }))

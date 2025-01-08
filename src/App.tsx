@@ -2,16 +2,18 @@ import { Suspense } from "react"
 import { useRoutes } from "react-router-dom"
 
 import { routes } from "@/router"
+import { useHomeStore } from "@/store/modules"
 
 import HeaderBar from "@/components/header-bar/header-bar"
 import PlayerBar from "@/components/player-bar/player-bar"
 
 function App() {
+  const playlist = useHomeStore((state) => state.playlist)
   return (
     <>
       <HeaderBar />
 
-      <PlayerBar />
+      {!!playlist.length && <PlayerBar />}
 
       <div style={{ padding: "0 256px", paddingBottom: "60px" }}>
         <Suspense fallback="">{useRoutes(routes)}</Suspense>

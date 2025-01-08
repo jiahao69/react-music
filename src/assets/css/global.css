@@ -39,3 +39,27 @@ img {
 .icon-bar_icon_heart:before {
   content: "\e61b";
 }
+
+.icon-bar_icon_pre:before {
+  content: "\e61e";
+}
+
+.icon-bar_icon_play_1:before {
+  content: "\e636";
+}
+
+.icon-bar_icon_next:before {
+  content: "\e61d";
+}
+
+.icon-bar_icon_list:before {
+  content: "\e63b";
+}
+
+.icon-bar_icon_playlistfuzhi:before {
+  content: "\e65e";
+}
+
+.icon-bar_icon_pause:before {
+  content: "\e62e";
+}
