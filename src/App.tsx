@@ -9,13 +9,19 @@ import PlayerBar from "@/components/player-bar/player-bar"
 
 function App() {
   const playlist = useHomeStore((state) => state.playlist)
+
   return (
     <>
       <HeaderBar />
 
       {!!playlist.length && <PlayerBar />}
 
-      <div style={{ padding: "0 256px", paddingBottom: "60px" }}>
+      <div
+        style={{
+          padding: "0 256px",
+          paddingBottom: playlist.length ? "132px" : "60px"
+        }}
+      >
         <Suspense fallback="">{useRoutes(routes)}</Suspense>
       </div>
     </>

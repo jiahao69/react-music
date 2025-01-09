@@ -21,7 +21,11 @@ const SongList: FC<IProps> = (props) => {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [hoverRow, setHoverRow] = useState<any>({})
+  const playIndex = useHomeStore((state) => state.playIndex)
+  const playlist = useHomeStore((state) => state.playlist)
   const setPlaylist = useHomeStore((state) => state.setPlaylist)
+
+  const currentPlay = playlist[playIndex]
 
   const handlePlay = async (record: any) => {
     const { id, al, name, ar, dt } = record
@@ -84,7 +88,7 @@ const SongList: FC<IProps> = (props) => {
             title="序号"
             width={90}
             align="center"
-            render={(_, _1, index) => (
+            render={(_, _2, index) => (
               <span style={{ fontWeight: 700 }}>
                 {(currentPage - 1) * defaultPageSize + (index + 1)}
               </span>
@@ -95,8 +99,15 @@ const SongList: FC<IProps> = (props) => {
             title="歌曲"
             width={400}
             ellipsis
-            render={(_, { name }) => (
-              <span style={{ cursor: "pointer" }}>{name}</span>
+            render={(_, { id, name }) => (
+              <span
+                style={{
+                  cursor: "pointer",
+                  fontWeight: currentPlay?.id === id ? 600 : "normal"
+                }}
+              >
+                {name}
+              </span>
             )}
           />
 

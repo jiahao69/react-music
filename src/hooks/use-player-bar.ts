@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState, useEffect, useCallback } from "react"
 
 import { useHomeStore } from "@/store/modules"
-
-let isControlProgress = false
 
 export function usePlayerBar() {
   const playlist = useHomeStore((state) => state.playlist)
@@ -10,6 +8,7 @@ export function usePlayerBar() {
   const setPlayIndex = useHomeStore((state) => state.setPlayIndex)
 
   const audioRef = useRef<HTMLAudioElement>(null)
+  const isDragRef = useRef(false)
 
   const [playStatus, setPlayStatus] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -17,68 +16,111 @@ export function usePlayerBar() {
 
   const currentPlay = playlist[playIndex]
 
-  useEffect(() => {
-    // 播放进度改变时触发
-    audioRef.current?.addEventListener("timeupdate", () => {
-      const time = Math.floor(audioRef.current?.currentTime!) * 1000
-      const progress = (time / currentPlay.playDuration) * 100
+  // 同步播放时间与进度
+  const onTimeUpdate = useCallback(() => {
+    // 在拖动中不设置时间和进度
+    if (!audioRef.current || isDragRef.current) return
 
-      // 在没有进度条时设置显示的时间和进度
-      if (!isControlProgress) {
-        setCurrentTime(time)
-        setPlayProgress(progress)
-      }
-    })
-
-    // 更新播放状态
-    ;["play", "pause", "ended"].map((item) =>
-      audioRef.current?.addEventListener(item, () =>
-        setPlayStatus(!audioRef.current?.paused)
-      )
-    )
-  }, [])
-
-  // 手动拖动进度条时触发
-  const onProgressChange = (progress: number) => {
-    isControlProgress = true
-
-    const time = currentPlay.playDuration * (progress / 100)
+    const time = Math.floor(audioRef.current.currentTime!) * 1000
+    const progress = (time / currentPlay.playDuration) * 100
 
     setCurrentTime(time)
     setPlayProgress(progress)
+  }, [currentPlay.playDuration])
+
+  // 同步播放状态
+  const onPlayStatusChange = useCallback(() => {
+    if (!audioRef.current) return
+
+    setPlayStatus(!audioRef.current.paused)
+  }, [])
+
+  useEffect(() => {
+    if (!audioRef.current) return
+
+    // 设置默认音量
+    audioRef.current.volume = 0.5
+  }, [])
+
+  useEffect(() => {
+    const audio = audioRef.current
+
+    if (!audio) return
+
+    audio.addEventListener("timeupdate", onTimeUpdate)
+    audio.addEventListener("play", onPlayStatusChange)
+    audio.addEventListener("pause", onPlayStatusChange)
+    audio.addEventListener("ended", onPlayStatusChange)
+
+    return () => {
+      audio.removeEventListener("timeupdate", onTimeUpdate)
+      audio.removeEventListener("play", onPlayStatusChange)
+      audio.removeEventListener("pause", onPlayStatusChange)
+      audio.removeEventListener("ended", onPlayStatusChange)
+    }
+  }, [onTimeUpdate, onPlayStatusChange])
+
+  // 进度拖动中
+  const onProgressChanging = useCallback(
+    (progress: number) => {
+      isDragRef.current = true
+
+      const time = currentPlay.playDuration * (progress / 100)
+
+      setCurrentTime(time)
+      setPlayProgress(progress)
+    },
+    [currentPlay.playDuration]
+  )
+
+  // 进度拖动结束
+  const onProgressChanged = useCallback(
+    (progress: number) => {
+      isDragRef.current = false
+
+      const time = currentPlay.playDuration * (progress / 100)
+
+      // 更新当前歌曲播放进度
+      if (audioRef.current) {
+        audioRef.current.currentTime = time / 1000
+        audioRef.current.play()
+      }
+    },
+    [currentPlay.playDuration]
+  )
+
+  // 音量拖动结束
+  const onVolumeProgressChanged = (progress: number) => {
+    if (!audioRef.current) return
+
+    audioRef.current.volume = progress / 100
   }
 
-  //手动拖动进度条结束时触发
-  const onProgressCompleteChange = (progress: number) => {
-    isControlProgress = false
-
-    const time = currentPlay.playDuration * (progress / 100)
-
-    // 更新当前歌曲播放进度
+  // 静音切换
+  const onVolumeClick = () => {
     if (audioRef.current) {
-      audioRef.current.currentTime = time / 1000
-      audioRef.current.play()
+      audioRef.current.muted = !audioRef.current.muted
     }
   }
 
-  // 播放暂停
-  const play = () => {
+  // 播放控制
+  const play = useCallback(() => {
     playStatus ? audioRef.current?.pause() : audioRef.current?.play()
-  }
+  }, [playStatus])
 
   // 上一首
-  const prev = () => {
+  const prev = useCallback(() => {
     const index = Math.max(0, playIndex - 1)
 
     setPlayIndex(index)
-  }
+  }, [playIndex, setPlayIndex])
 
   // 下一首
-  const next = () => {
+  const next = useCallback(() => {
     const index = Math.min(playlist.length - 1, playIndex + 1)
 
     setPlayIndex(index)
-  }
+  }, [playIndex, setPlayIndex])
 
   return {
     currentPlay,
@@ -89,7 +131,9 @@ export function usePlayerBar() {
     play,
     prev,
     next,
-    onProgressChange,
-    onProgressCompleteChange
+    onProgressChanging,
+    onProgressChanged,
+    onVolumeProgressChanged,
+    onVolumeClick
   }
 }

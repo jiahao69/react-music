@@ -63,3 +63,7 @@ img {
 .icon-bar_icon_pause:before {
   content: "\e62e";
 }
+
+.icon-bar_icon_volume:before {
+  content: "\e631";
+}

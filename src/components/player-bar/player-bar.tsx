@@ -1,6 +1,7 @@
 import { memo } from "react"
 import type { FC, ReactNode } from "react"
 import { Slider, ConfigProvider } from "antd"
+import { motion } from "motion/react"
 
 import { PlayerBarWrapper } from "./player-bar-style"
 import { formatDuration } from "@/utils/format-duration"
@@ -20,13 +21,20 @@ const PlayerBar: FC<IProps> = () => {
     play,
     prev,
     next,
-    onProgressChange,
-    onProgressCompleteChange
+    onProgressChanging,
+    onProgressChanged,
+    onVolumeProgressChanged,
+    onVolumeClick
   } = usePlayerBar()
 
   return (
     <PlayerBarWrapper>
-      <div className="player-bar-wrapper">
+      <motion.div
+        className="player-bar-wrapper"
+        initial={{ translateY: "100%" }}
+        animate={{ translateY: "0%" }}
+        transition={{ duration: 0.3, ease: "linear" }}
+      >
         <div className="player-bar-content">
           <div className="left-layout">
             <div className="song-pic">
@@ -68,10 +76,12 @@ const PlayerBar: FC<IProps> = () => {
                 }}
               >
                 <Slider
+                  style={{ margin: 0 }}
                   value={playProgress}
+                  step={0.1}
                   tooltip={{ open: false }}
-                  onChange={onProgressChange}
-                  onChangeComplete={onProgressCompleteChange}
+                  onChange={onProgressChanging}
+                  onChangeComplete={onProgressChanged}
                 />
               </ConfigProvider>
             </div>
@@ -83,7 +93,7 @@ const PlayerBar: FC<IProps> = () => {
               <i className="iconfont icon-bar_icon_pre"></i>
             </div>
 
-            {/* 播放暂停 */}
+            {/* 播放控制 */}
             <div className="play-btn" onClick={play}>
               <i
                 className={`iconfont ${
@@ -103,18 +113,42 @@ const PlayerBar: FC<IProps> = () => {
               <i className="iconfont icon-bar_icon_heart"></i>
             </div>
 
-            <div className="mode-btn">
+            <div className="change-mode-btn">
               <i className="iconfont icon-bar_icon_list"></i>
             </div>
 
             <div className="playlist-btn">
               <i className="iconfont icon-bar_icon_playlistfuzhi"></i>
             </div>
+
+            <div className="volume-control">
+              <i
+                className="iconfont icon-bar_icon_volume"
+                onClick={onVolumeClick}
+              ></i>
+
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Slider: {
+                      railSize: 3
+                    }
+                  }
+                }}
+              >
+                <Slider
+                  className="volume-progress"
+                  defaultValue={50}
+                  tooltip={{ open: false }}
+                  onChangeComplete={onVolumeProgressChanged}
+                />
+              </ConfigProvider>
+            </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      <audio src={currentPlay.playUrl} autoPlay ref={audioRef}></audio>
+      <audio autoPlay src={currentPlay.playUrl} ref={audioRef}></audio>
     </PlayerBarWrapper>
   )
 }
