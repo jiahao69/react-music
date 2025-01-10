@@ -17,34 +17,46 @@ export const PlayerBarWrapper = styled.div`
       width: 1400px;
       margin: 0 auto;
 
-      .left-layout {
+      .bar-left-layout {
         display: flex;
         align-items: center;
         width: 460px;
 
-        .song-pic {
+        .album-pic {
           width: 70px;
+          height: 70px;
           margin-right: 20px;
         }
 
-        .song-info {
-          .name {
-            font-size: 14px;
-          }
+        .right-layout {
+          flex: 1;
 
-          .artist {
-            font-size: 14px;
-            color: #666;
-          }
-        }
+          .header-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 11px;
 
-        .duration {
-          font-size: 14px;
-          color: #999;
+            .song-info {
+              .name {
+                font-size: 14px;
+              }
+
+              .artist {
+                font-size: 14px;
+                color: #666;
+              }
+            }
+
+            .duration {
+              font-size: 14px;
+              color: #999;
+            }
+          }
         }
       }
 
-      .middle-layout {
+      .bar-middle-layout {
         display: flex;
         align-items: center;
 
@@ -62,7 +74,7 @@ export const PlayerBarWrapper = styled.div`
         }
       }
 
-      .right-layout {
+      .bar-right-layout {
         display: flex;
         justify-content: flex-end;
         align-items: center;

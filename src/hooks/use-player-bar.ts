@@ -5,6 +5,7 @@ import { useHomeStore } from "@/store/modules"
 export function usePlayerBar() {
   const playlist = useHomeStore((state) => state.playlist)
   const playIndex = useHomeStore((state) => state.playIndex)
+
   const setPlayIndex = useHomeStore((state) => state.setPlayIndex)
 
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -21,7 +22,7 @@ export function usePlayerBar() {
     // 在拖动中不设置时间和进度
     if (!audioRef.current || isDragRef.current) return
 
-    const time = Math.floor(audioRef.current.currentTime!) * 1000
+    const time = audioRef.current.currentTime * 1000
     const progress = (time / currentPlay.playDuration) * 100
 
     setCurrentTime(time)

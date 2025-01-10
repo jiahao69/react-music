@@ -6,7 +6,7 @@ export function formatDuration(duration: number) {
 
   const minute = (Math.floor(durationSeconds / 60) + "").padStart(2, "0")
 
-  const seconds = (Math.round(durationSeconds % 60) + "").padStart(2, "0")
+  const seconds = (Math.floor(durationSeconds % 60) + "").padStart(2, "0")
 
   return `${minute}:${seconds}`
 }

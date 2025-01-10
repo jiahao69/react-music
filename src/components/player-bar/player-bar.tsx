@@ -36,24 +36,13 @@ const PlayerBar: FC<IProps> = () => {
         transition={{ duration: 0.3, ease: "linear" }}
       >
         <div className="player-bar-content">
-          <div className="left-layout">
-            <div className="song-pic">
+          <div className="bar-left-layout">
+            <div className="album-pic">
               <img src={currentPlay.picUrl} alt="" />
             </div>
 
-            <div
-              style={{
-                flex: 1
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "11px"
-                }}
-              >
+            <div className="right-layout">
+              <div className="header-layout">
                 <div className="song-info">
                   <span className="name">{currentPlay.name}</span>
                   <span className="artist">{` - ${currentPlay.artist}`}</span>
@@ -78,7 +67,7 @@ const PlayerBar: FC<IProps> = () => {
                 <Slider
                   style={{ margin: 0 }}
                   value={playProgress}
-                  step={0.1}
+                  step={0.5}
                   tooltip={{ open: false }}
                   onChange={onProgressChanging}
                   onChangeComplete={onProgressChanged}
@@ -87,7 +76,7 @@ const PlayerBar: FC<IProps> = () => {
             </div>
           </div>
 
-          <div className="middle-layout">
+          <div className="bar-middle-layout">
             {/* 上一首 */}
             <div className="prev-btn" onClick={prev}>
               <i className="iconfont icon-bar_icon_pre"></i>
@@ -108,7 +97,7 @@ const PlayerBar: FC<IProps> = () => {
             </div>
           </div>
 
-          <div className="right-layout">
+          <div className="bar-right-layout">
             <div className="like-btn">
               <i className="iconfont icon-bar_icon_heart"></i>
             </div>

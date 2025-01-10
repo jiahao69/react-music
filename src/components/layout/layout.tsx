@@ -1,4 +1,4 @@
-import { Fragment, memo } from "react"
+import { memo } from "react"
 import type { FC, ReactNode } from "react"
 import { Outlet } from "react-router-dom"
 
@@ -18,13 +18,13 @@ const navList = [
 
 const Layout: FC<IProps> = () => {
   return (
-    <Fragment>
+    <>
       <div style={{ padding: "16px 0", paddingLeft: "206px" }}>
         <NavBar list={navList} isLink={true} />
       </div>
 
       <Outlet />
-    </Fragment>
+    </>
   )
 }
 
