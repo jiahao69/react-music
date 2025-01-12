@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react"
 
 import { useHomeStore } from "@/store/modules"
+import { playModeEnum } from "@/constant/enum"
 
 export function usePlayerBar() {
   const playlist = useHomeStore((state) => state.playlist)
@@ -11,9 +12,10 @@ export function usePlayerBar() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const isDragRef = useRef(false)
 
-  const [playStatus, setPlayStatus] = useState(false)
+  const [playStatus, setPlayStatus] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
   const [playProgress, setPlayProgress] = useState(0)
+  const [playMode, setPlayMode] = useState(playModeEnum.order)
 
   const currentPlay = playlist[playIndex]
 
@@ -27,14 +29,31 @@ export function usePlayerBar() {
 
     setCurrentTime(time)
     setPlayProgress(progress)
-  }, [currentPlay.playDuration])
+  }, [currentPlay])
 
-  // 同步播放状态
-  const onPlayStatusChange = useCallback(() => {
-    if (!audioRef.current) return
+  // 歌曲播放结束时触发
+  const onPlayEnded = useCallback(() => {
+    switch (playMode) {
+      // 顺序播放
+      case playModeEnum.order:
+        // 播放下一首
+        next()
 
-    setPlayStatus(!audioRef.current.paused)
-  }, [])
+        break
+      case playModeEnum.loop:
+        // 单曲循环
+        if (audioRef.current) {
+          audioRef.current.currentTime = 0
+          audioRef.current.play()
+        }
+
+        break
+      case playModeEnum.random:
+        break
+      default:
+        break
+    }
+  }, [playMode, playIndex, playlist])
 
   useEffect(() => {
     if (!audioRef.current) return
@@ -49,17 +68,13 @@ export function usePlayerBar() {
     if (!audio) return
 
     audio.addEventListener("timeupdate", onTimeUpdate)
-    audio.addEventListener("play", onPlayStatusChange)
-    audio.addEventListener("pause", onPlayStatusChange)
-    audio.addEventListener("ended", onPlayStatusChange)
+    audio.addEventListener("ended", onPlayEnded)
 
     return () => {
       audio.removeEventListener("timeupdate", onTimeUpdate)
-      audio.removeEventListener("play", onPlayStatusChange)
-      audio.removeEventListener("pause", onPlayStatusChange)
-      audio.removeEventListener("ended", onPlayStatusChange)
+      audio.removeEventListener("ended", onPlayEnded)
     }
-  }, [onTimeUpdate, onPlayStatusChange])
+  }, [onTimeUpdate, playMode])
 
   // 进度拖动中
   const onProgressChanging = useCallback(
@@ -97,7 +112,6 @@ export function usePlayerBar() {
     audioRef.current.volume = progress / 100
   }
 
-  // 静音切换
   const onVolumeClick = () => {
     if (audioRef.current) {
       audioRef.current.muted = !audioRef.current.muted
@@ -106,22 +120,36 @@ export function usePlayerBar() {
 
   // 播放控制
   const play = useCallback(() => {
-    playStatus ? audioRef.current?.pause() : audioRef.current?.play()
+    const audio = audioRef.current
+
+    // 当前播放状态
+    const status = !audio?.paused
+
+    status ? audio?.pause() : audio?.play()
+
+    setPlayStatus(!status)
   }, [playStatus])
 
   // 上一首
   const prev = useCallback(() => {
-    const index = Math.max(0, playIndex - 1)
+    // 当前是第一首歌时播放最后一首
+    const index = playIndex === 0 ? playlist.length - 1 : playIndex - 1
 
     setPlayIndex(index)
-  }, [playIndex, setPlayIndex])
+  }, [playIndex, playlist])
 
   // 下一首
   const next = useCallback(() => {
-    const index = Math.min(playlist.length - 1, playIndex + 1)
+    // 当前是最后一首歌时播放第一首歌
+    const index = playIndex === playlist.length - 1 ? 0 : playIndex + 1
 
     setPlayIndex(index)
-  }, [playIndex, setPlayIndex])
+  }, [playIndex, playlist])
+
+  // 播放模式切换
+  const onPlayModeChange = () => {
+    setPlayMode((playMode + 1) % 3)
+  }
 
   return {
     currentPlay,
@@ -129,12 +157,14 @@ export function usePlayerBar() {
     currentTime,
     playStatus,
     playProgress,
+    playMode,
     play,
     prev,
     next,
     onProgressChanging,
     onProgressChanged,
     onVolumeProgressChanged,
-    onVolumeClick
+    onVolumeClick,
+    onPlayModeChange
   }
 }

@@ -56,6 +56,14 @@ img {
   content: "\e63b";
 }
 
+.icon-bar_icon_loop:before {
+  content: "\e63d";
+}
+
+.icon-bar_icon_random:before {
+  content: "\e632";
+}
+
 .icon-bar_icon_playlistfuzhi:before {
   content: "\e65e";
 }

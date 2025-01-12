@@ -30,26 +30,30 @@ export const PlayerBarWrapper = styled.div`
 
         .right-layout {
           flex: 1;
-
           .header-layout {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 11px;
+            font-size: 14px;
 
             .song-info {
+              display: flex;
+              align-items: center;
+
               .name {
-                font-size: 14px;
+                max-width: 180px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
 
               .artist {
-                font-size: 14px;
                 color: #666;
               }
             }
 
             .duration {
-              font-size: 14px;
               color: #999;
             }
           }

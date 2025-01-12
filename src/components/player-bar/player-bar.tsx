@@ -18,14 +18,28 @@ const PlayerBar: FC<IProps> = () => {
     currentTime,
     playStatus,
     playProgress,
+    playMode,
     play,
     prev,
     next,
     onProgressChanging,
     onProgressChanged,
     onVolumeProgressChanged,
-    onVolumeClick
+    onVolumeClick,
+    onPlayModeChange
   } = usePlayerBar()
+
+  const getModeIcon = () => {
+    const index = playMode % 3
+
+    if (index === 0) {
+      return "icon-bar_icon_list"
+    } else if (index === 1) {
+      return "icon-bar_icon_loop"
+    } else if (index === 2) {
+      return "icon-bar_icon_random"
+    }
+  }
 
   return (
     <PlayerBarWrapper>
@@ -44,8 +58,11 @@ const PlayerBar: FC<IProps> = () => {
             <div className="right-layout">
               <div className="header-layout">
                 <div className="song-info">
-                  <span className="name">{currentPlay.name}</span>
-                  <span className="artist">{` - ${currentPlay.artist}`}</span>
+                  <div className="name">{currentPlay.name}</div>
+                  <div className="artist">
+                    {"\u00A0-\u00A0"}
+                    {currentPlay.artist}
+                  </div>
                 </div>
 
                 <div className="duration">
@@ -102,8 +119,9 @@ const PlayerBar: FC<IProps> = () => {
               <i className="iconfont icon-bar_icon_heart"></i>
             </div>
 
-            <div className="change-mode-btn">
-              <i className="iconfont icon-bar_icon_list"></i>
+            {/* 播放模式 */}
+            <div className="play-mode-btn" onClick={onPlayModeChange}>
+              <i className={`iconfont ${getModeIcon()}`}></i>
             </div>
 
             <div className="playlist-btn">
