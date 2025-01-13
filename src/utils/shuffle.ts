@@ -1,5 +1,5 @@
 /**
- * 洗牌算法
+ * 洗牌算法函数
  */
 export function shuffle(arr: any[]) {
   let n = arr.length,

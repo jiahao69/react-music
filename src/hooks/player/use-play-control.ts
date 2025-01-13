@@ -1,6 +1,6 @@
 import { useCallback, type RefObject } from "react"
 
-import { IPlaylist, useHomeStore } from "@/store/modules"
+import { type IPlaylist, useHomeStore } from "@/store/modules"
 import { playModeEnum } from "@/constant/enum"
 import { shuffle } from "@/utils/shuffle"
 

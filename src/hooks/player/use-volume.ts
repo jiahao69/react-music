@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 
 export function useVolume(audioRef: React.RefObject<HTMLAudioElement>) {
   const [volumeProgress, setVolumeProgress] = useState(100)
@@ -12,20 +12,20 @@ export function useVolume(audioRef: React.RefObject<HTMLAudioElement>) {
   }, [])
 
   // 音量拖动中
-  const onVolumeProgressChanging = (progress: number) => {
+  const onVolumeProgressChanging = useCallback((progress: number) => {
     setVolumeProgress(progress)
-  }
+  }, [])
 
   // 音量拖动结束
-  const onVolumeProgressChanged = (progress: number) => {
+  const onVolumeProgressChanged = useCallback((progress: number) => {
     if (!audioRef.current) return
 
     tempVolumeProgress.current = progress
 
     audioRef.current.volume = progress / 100
-  }
+  }, [])
 
-  const onMutedChange = () => {
+  const onMutedChange = useCallback(() => {
     if (!audioRef.current) return
 
     !audioRef.current.muted
@@ -33,7 +33,7 @@ export function useVolume(audioRef: React.RefObject<HTMLAudioElement>) {
       : setVolumeProgress(tempVolumeProgress.current)
 
     audioRef.current.muted = !audioRef.current.muted
-  }
+  }, [])
 
   return {
     volumeProgress,

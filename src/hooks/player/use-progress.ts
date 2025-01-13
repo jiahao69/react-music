@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback, type RefObject } from "react"
-import { IPlaylist } from "@/store/modules"
+import { type IPlaylist } from "@/store/modules"
 
 export function useProgress(
   currentPlay: IPlaylist,

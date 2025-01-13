@@ -29,10 +29,10 @@ type Actions = {
 export const useHomeStore = create<State & Actions>((set) => ({
   // 当前播放索引
   playIndex: 0,
-  // 播放模式(默认顺序播放)
-  playMode: playModeEnum.order,
   // 播放状态
   playStatus: false,
+  // 播放模式(默认顺序播放)
+  playMode: playModeEnum.order,
   // 播放列表
   playlist: [],
 
