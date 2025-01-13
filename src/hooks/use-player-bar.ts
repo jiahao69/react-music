@@ -1,9 +1,9 @@
-import { useEffect, useCallback } from "react"
+import { useEffect } from "react"
 
 import { useHomeStore } from "@/store/modules"
 import { useAudio } from "@/hooks/player/use-audio"
 import { useProgress } from "@/hooks/player/use-progress"
-import { usePlayControl } from "@/hooks/player/use-play-control"
+import { usePlayerControl } from "@/hooks/player/use-play-control"
 import { useVolume } from "@/hooks/player/use-volume"
 
 export function usePlayerBar() {
@@ -14,6 +14,7 @@ export function usePlayerBar() {
 
   const { audioRef, playStatus, play, onPlayStatusChange } = useAudio()
 
+  // 进度控制
   const {
     currentTime,
     playProgress,
@@ -22,17 +23,17 @@ export function usePlayerBar() {
     onProgressChanged
   } = useProgress(currentPlay, audioRef)
 
-  const { playMode, switchSongs, onPlayModeChange } = usePlayControl(audioRef)
+  // 处理播放器功能
+  const { playMode, switchSongs, onPlayModeChange, onPlayEnded } =
+    usePlayerControl(audioRef)
 
+  // 音量控制
   const {
     volumeProgress,
     onVolumeProgressChanging,
     onVolumeProgressChanged,
     onMutedChange
   } = useVolume(audioRef)
-
-  // 歌曲播放结束时触发
-  const onPlayEnded = useCallback(() => switchSongs(true), [switchSongs])
 
   useEffect(() => {
     const audio = audioRef.current

@@ -4,7 +4,7 @@ import { type IPlaylist, useHomeStore } from "@/store/modules"
 import { playModeEnum } from "@/constant/enum"
 import { shuffle } from "@/utils/shuffle"
 
-export function usePlayControl(audioRef: RefObject<HTMLAudioElement>) {
+export function usePlayerControl(audioRef: RefObject<HTMLAudioElement>) {
   const playIndex = useHomeStore((state) => state.playIndex)
   const playMode = useHomeStore((state) => state.playMode)
   const playlist = useHomeStore((state) => state.playlist)
@@ -59,15 +59,18 @@ export function usePlayControl(audioRef: RefObject<HTMLAudioElement>) {
     [playMode, playlist, prev, next]
   )
 
-  const onPlayModeChange = () => {
+  const onPlayModeChange = useCallback(() => {
     const mode = (playMode + 1) % 3
 
     setPlayMode(mode)
-  }
+  }, [playMode])
+
+  const onPlayEnded = useCallback(() => switchSongs(true), [switchSongs])
 
   return {
     playMode,
     switchSongs,
-    onPlayModeChange
+    onPlayModeChange,
+    onPlayEnded
   }
 }
