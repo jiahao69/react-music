@@ -1,7 +1,9 @@
-import { memo } from "react"
+import { memo, useMemo } from "react"
 import type { FC, ReactNode } from "react"
 import { Slider, ConfigProvider } from "antd"
 import { motion } from "motion/react"
+
+import { playModeEnum } from "@/constant/enum"
 
 import { PlayerBarWrapper } from "./player-bar-style"
 import { formatDuration } from "@/utils/format-duration"
@@ -19,27 +21,28 @@ const PlayerBar: FC<IProps> = () => {
     playStatus,
     playProgress,
     playMode,
+    volumeProgress,
     play,
-    prev,
-    next,
+    switchSongs,
     onProgressChanging,
     onProgressChanged,
+    onVolumeProgressChanging,
     onVolumeProgressChanged,
-    onVolumeClick,
+    onMutedChange,
     onPlayModeChange
   } = usePlayerBar()
 
-  const getModeIcon = () => {
-    const index = playMode % 3
+  const modeIcon = useMemo(() => {
+    const mode = playMode % 3
 
-    if (index === 0) {
+    if (mode === playModeEnum.order) {
       return "icon-bar_icon_list"
-    } else if (index === 1) {
+    } else if (mode === playModeEnum.loop) {
       return "icon-bar_icon_loop"
-    } else if (index === 2) {
+    } else if (mode === playModeEnum.random) {
       return "icon-bar_icon_random"
     }
-  }
+  }, [playMode])
 
   return (
     <PlayerBarWrapper>
@@ -95,7 +98,7 @@ const PlayerBar: FC<IProps> = () => {
 
           <div className="bar-middle-layout">
             {/* 上一首 */}
-            <div className="prev-btn" onClick={prev}>
+            <div className="prev-btn" onClick={() => switchSongs(false)}>
               <i className="iconfont icon-bar_icon_pre"></i>
             </div>
 
@@ -109,7 +112,7 @@ const PlayerBar: FC<IProps> = () => {
             </div>
 
             {/* 下一首 */}
-            <div className="next-btn" onClick={next}>
+            <div className="next-btn" onClick={() => switchSongs(true)}>
               <i className="iconfont icon-bar_icon_next"></i>
             </div>
           </div>
@@ -121,7 +124,7 @@ const PlayerBar: FC<IProps> = () => {
 
             {/* 播放模式 */}
             <div className="play-mode-btn" onClick={onPlayModeChange}>
-              <i className={`iconfont ${getModeIcon()}`}></i>
+              <i className={`iconfont ${modeIcon}`}></i>
             </div>
 
             <div className="playlist-btn">
@@ -130,8 +133,12 @@ const PlayerBar: FC<IProps> = () => {
 
             <div className="volume-control">
               <i
-                className="iconfont icon-bar_icon_volume"
-                onClick={onVolumeClick}
+                className={`iconfont ${
+                  volumeProgress === 0
+                    ? "icon-bar_icon_mute"
+                    : "icon-bar_icon_volume"
+                }`}
+                onClick={onMutedChange}
               ></i>
 
               <ConfigProvider
@@ -145,8 +152,9 @@ const PlayerBar: FC<IProps> = () => {
               >
                 <Slider
                   className="volume-progress"
-                  defaultValue={50}
+                  value={volumeProgress}
                   tooltip={{ open: false }}
+                  onChange={onVolumeProgressChanging}
                   onChangeComplete={onVolumeProgressChanged}
                 />
               </ConfigProvider>

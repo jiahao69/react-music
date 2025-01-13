@@ -75,3 +75,7 @@ img {
 .icon-bar_icon_volume:before {
   content: "\e631";
 }
+
+.icon-bar_icon_mute:before {
+  content: "\e644";
+}

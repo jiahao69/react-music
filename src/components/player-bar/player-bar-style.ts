@@ -42,7 +42,7 @@ export const PlayerBarWrapper = styled.div`
               align-items: center;
 
               .name {
-                max-width: 180px;
+                max-width: 70%;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;

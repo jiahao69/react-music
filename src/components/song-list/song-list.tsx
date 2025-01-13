@@ -21,8 +21,10 @@ const SongList: FC<IProps> = (props) => {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [hoverRow, setHoverRow] = useState<any>({})
+
   const playIndex = useHomeStore((state) => state.playIndex)
   const playlist = useHomeStore((state) => state.playlist)
+
   const setPlaylist = useHomeStore((state) => state.setPlaylist)
 
   const currentPlay = playlist[playIndex]
@@ -34,15 +36,18 @@ const SongList: FC<IProps> = (props) => {
 
     const { url, time } = data[0]
 
-    setPlaylist({
-      id,
-      picUrl: al.picUrl,
-      name,
-      artist: ar[0].name,
-      duration: dt,
-      playDuration: time,
-      playUrl: url
-    })
+    setPlaylist([
+      {
+        id,
+        picUrl: al.picUrl,
+        name,
+        artist: ar[0].name,
+        duration: dt,
+        playDuration: time,
+        playUrl: url
+      },
+      ...playlist
+    ])
   }
 
   return (
