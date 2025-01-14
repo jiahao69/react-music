@@ -23,7 +23,7 @@ export function usePlayerBar() {
     onProgressChanged
   } = useProgress(currentPlay, audioRef)
 
-  // 处理播放器功能
+  // 处理播放器控制功能
   const { playMode, switchSongs, onPlayModeChange, onPlayEnded } =
     usePlayerControl(audioRef)
 
