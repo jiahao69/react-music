@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom"
 
 import { PlaylistItemWrapper } from "./playlist-item-style"
 import { getImg } from "@/utils/files"
+import { getPlaylistDetail, getSongUrl } from "@/service/modules"
+import { useHomeStore } from "@/store/modules"
 
 interface IProps {
   children?: ReactNode
@@ -14,16 +16,46 @@ interface IProps {
 const PlaylistItem: FC<IProps> = (props) => {
   const { item } = props
 
+  const setPlaylist = useHomeStore((state) => state.setPlaylist)
+
   const navigate = useNavigate()
+
+  const formatPlayCount = (count: number) => {
+    if (count < 10000) return count
+
+    return `${(count / 10000).toFixed(1)}万`
+  }
 
   const navigateToDetail = (id: number) => {
     navigate(`/playlist-detail/${id}`)
   }
 
-  const getPlayCount = (count: number) => {
-    if (count < 10000) return count
+  const onPlayMusic = async () => {
+    const { playlist } = await getPlaylistDetail({ id: item.id })
 
-    return `${(count / 10000).toFixed(1)}万`
+    const tracks = playlist.tracks
+
+    const ids = tracks.map((item: any) => item.id).join(",")
+
+    const { data } = await getSongUrl({ id: ids })
+
+    const newList = tracks.map((item: any) => {
+      const { id, al, name, ar, dt } = item
+
+      const { time, url } = data.find((v: any) => v.id === item.id)
+
+      return {
+        id,
+        picUrl: al.picUrl,
+        name,
+        artist: ar[0].name,
+        duration: dt,
+        playDuration: time,
+        playUrl: url
+      }
+    })
+
+    setPlaylist(newList)
   }
 
   return (
@@ -40,7 +72,13 @@ const PlaylistItem: FC<IProps> = (props) => {
         />
 
         <div className="playlist-pic-mask">
-          <div className="play-btn" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="play-btn"
+            onClick={(e) => {
+              e.stopPropagation()
+              onPlayMusic()
+            }}
+          >
             <i className="iconfont icon-icon_play_1"></i>
           </div>
         </div>
@@ -53,7 +91,7 @@ const PlaylistItem: FC<IProps> = (props) => {
       <div className="play-count-wrapper">
         <i className="iconfont icon-icon_play"></i>
 
-        <div className="play-count">{getPlayCount(item.playCount)}</div>
+        <div className="play-count">{formatPlayCount(item.playCount)}</div>
       </div>
     </PlaylistItemWrapper>
   )

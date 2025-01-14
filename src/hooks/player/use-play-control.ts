@@ -29,7 +29,7 @@ export function usePlayerControl(audioRef: RefObject<HTMLAudioElement>) {
     setPlayIndex(index)
   }, [playIndex, playlist.length])
 
-  // 切换歌曲
+  // 切换歌曲(上一首或下一首)
   const switchSongs = useCallback(
     (isNext: boolean) => {
       switch (playMode) {
