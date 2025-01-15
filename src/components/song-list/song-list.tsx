@@ -36,7 +36,7 @@ const SongList: FC<IProps> = (props) => {
 
     const { url, time } = data[0]
 
-    if (currentPlay.id === id) return
+    if (currentPlay?.id === id) return
 
     setPlaylist([
       {

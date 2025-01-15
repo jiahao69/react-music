@@ -15,6 +15,7 @@ export const PlayerBarWrapper = styled.div`
       justify-content: space-between;
       align-items: center;
       width: 1400px;
+      height: 100%;
       margin: 0 auto;
 
       .bar-left-layout {
@@ -28,34 +29,36 @@ export const PlayerBarWrapper = styled.div`
           margin-right: 20px;
         }
 
-        .right-layout {
-          flex: 1;
-          .header-layout {
+        .header-layout {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+          font-size: 14px;
+
+          .song-info {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 11px;
-            font-size: 14px;
+            width: 280px;
 
-            .song-info {
-              display: flex;
-              align-items: center;
-
-              .name {
-                max-width: 70%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-
-              .artist {
-                color: #666;
-              }
+            .name {
+              max-width: 60%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
 
-            .duration {
-              color: #999;
+            .artist {
+              max-width: 40%;
+              color: #666;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
+          }
+
+          .duration {
+            color: #999;
           }
         }
       }
@@ -87,6 +90,16 @@ export const PlayerBarWrapper = styled.div`
 
         .iconfont {
           font-size: 18px;
+        }
+
+        .playlist-btn {
+          position: relative;
+          .playlist-num {
+            position: absolute;
+            top: -4px;
+            left: 12px;
+            font-size: 12px;
+          }
         }
 
         .volume-control {

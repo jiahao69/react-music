@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 import { useRoutes } from "react-router-dom"
+import { ConfigProvider } from "antd"
 
 import { routes } from "@/router"
 import { useHomeStore } from "@/store/modules"
@@ -14,7 +15,17 @@ function App() {
     <>
       <HeaderBar />
 
-      {!!playlist.length && <PlayerBar />}
+      <ConfigProvider
+        theme={{
+          components: {
+            Slider: {
+              railSize: 3
+            }
+          }
+        }}
+      >
+        {!!playlist.length && <PlayerBar />}
+      </ConfigProvider>
 
       <div
         style={{

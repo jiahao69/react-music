@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react"
 import type { FC, ReactNode } from "react"
-import { Slider, ConfigProvider } from "antd"
+import { Slider, Image } from "antd"
 import { motion } from "motion/react"
 
 import { playModeEnum } from "@/constant/enum"
@@ -8,6 +8,7 @@ import { playModeEnum } from "@/constant/enum"
 import { PlayerBarWrapper } from "./player-bar-style"
 import { formatDuration } from "@/utils/format-duration"
 import { usePlayerBar } from "@/hooks/use-player-bar"
+import { getImg } from "@/utils/files"
 
 interface IProps {
   children?: ReactNode
@@ -15,6 +16,7 @@ interface IProps {
 
 const PlayerBar: FC<IProps> = () => {
   const {
+    playlist,
     currentPlay,
     audioRef,
     currentTime,
@@ -55,13 +57,20 @@ const PlayerBar: FC<IProps> = () => {
         <div className="player-bar-content">
           <div className="bar-left-layout">
             <div className="album-pic">
-              <img src={currentPlay.picUrl} alt="" />
+              <Image
+                src={currentPlay.picUrl}
+                preview={false}
+                placeholder={
+                  <Image src={getImg("placeholder_bg")} preview={false} />
+                }
+              />
             </div>
 
-            <div className="right-layout">
+            <div style={{ flexGrow: 1 }}>
               <div className="header-layout">
                 <div className="song-info">
                   <div className="name">{currentPlay.name}</div>
+
                   <div className="artist">
                     {"\u00A0-\u00A0"}
                     {currentPlay.artist}
@@ -75,24 +84,14 @@ const PlayerBar: FC<IProps> = () => {
                 </div>
               </div>
 
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Slider: {
-                      railSize: 3
-                    }
-                  }
-                }}
-              >
-                <Slider
-                  style={{ margin: 0 }}
-                  value={playProgress}
-                  step={0.5}
-                  tooltip={{ open: false }}
-                  onChange={onProgressChanging}
-                  onChangeComplete={onProgressChanged}
-                />
-              </ConfigProvider>
+              <Slider
+                style={{ margin: 0 }}
+                value={playProgress}
+                step={0.5}
+                tooltip={{ open: false }}
+                onChange={onProgressChanging}
+                onChangeComplete={onProgressChanged}
+              />
             </div>
           </div>
 
@@ -102,7 +101,7 @@ const PlayerBar: FC<IProps> = () => {
               <i className="iconfont icon-bar_icon_pre"></i>
             </div>
 
-            {/* 播放控制 */}
+            {/* 播放暂停 */}
             <div className="play-btn" onClick={play}>
               <i
                 className={`iconfont ${
@@ -127,10 +126,14 @@ const PlayerBar: FC<IProps> = () => {
               <i className={`iconfont ${modeIcon}`}></i>
             </div>
 
+            {/* 播放列表 */}
             <div className="playlist-btn">
               <i className="iconfont icon-bar_icon_playlistfuzhi"></i>
+
+              <div className="playlist-num">{playlist.length}</div>
             </div>
 
+            {/* 音量控制 */}
             <div className="volume-control">
               <i
                 className={`iconfont ${
@@ -141,23 +144,13 @@ const PlayerBar: FC<IProps> = () => {
                 onClick={onMutedChange}
               ></i>
 
-              <ConfigProvider
-                theme={{
-                  components: {
-                    Slider: {
-                      railSize: 3
-                    }
-                  }
-                }}
-              >
-                <Slider
-                  className="volume-progress"
-                  value={volumeProgress}
-                  tooltip={{ open: false }}
-                  onChange={onVolumeProgressChanging}
-                  onChangeComplete={onVolumeProgressChanged}
-                />
-              </ConfigProvider>
+              <Slider
+                className="volume-progress"
+                value={volumeProgress}
+                tooltip={{ open: false }}
+                onChange={onVolumeProgressChanging}
+                onChangeComplete={onVolumeProgressChanged}
+              />
             </div>
           </div>
         </div>

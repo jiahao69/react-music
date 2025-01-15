@@ -54,6 +54,7 @@ export function usePlayerBar() {
   }, [onTimeUpdate, onPlayEnded])
 
   return {
+    playlist,
     currentPlay,
     audioRef,
     currentTime,
