@@ -1,7 +1,7 @@
 import { lazy } from "react"
 import { type RouteObject } from "react-router-dom"
 
-const Layout = lazy(() => import("@/components/layout/layout"))
+const MainLayout = lazy(() => import("@/components/main-layout/main-layout"))
 const Home = lazy(() => import("@/pages/home/home"))
 const Rankings = lazy(() => import("@/pages/rankings"))
 const Singers = lazy(() => import("@/pages/singers"))
@@ -13,7 +13,7 @@ const PlaylistDetail = lazy(
 
 export const routes: RouteObject[] = [
   {
-    element: <Layout />,
+    element: <MainLayout />,
     children: [
       {
         index: true,

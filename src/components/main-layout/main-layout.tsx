@@ -16,7 +16,7 @@ const navList = [
   { name: "MV", path: "/mvs" }
 ]
 
-const Layout: FC<IProps> = () => {
+const MainLayout: FC<IProps> = () => {
   return (
     <>
       <div style={{ padding: "16px 0", paddingLeft: "206px" }}>
@@ -28,4 +28,4 @@ const Layout: FC<IProps> = () => {
   )
 }
 
-export default memo(Layout)
+export default memo(MainLayout)

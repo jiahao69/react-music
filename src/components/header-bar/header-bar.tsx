@@ -1,8 +1,8 @@
 import { memo } from "react"
 import type { FC, ReactNode } from "react"
 
-import { getImg } from "@/utils/files"
 import { HeaderBarWrapper } from "./header-bar-style"
+import { getImg } from "@/utils/files"
 
 import SearchInput from "@/components/search-input/search-input"
 

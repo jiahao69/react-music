@@ -1,6 +1,5 @@
 import { memo, useState } from "react"
 import type { FC, ReactNode } from "react"
-import { SearchOutlined } from "@ant-design/icons"
 
 import { SearchInputWrapper } from "./search-input-style"
 
@@ -24,7 +23,7 @@ const SearchInput: FC<IProps> = () => {
         />
 
         <div className="search-icon">
-          <SearchOutlined style={{ color: "rgb(156, 156, 156)" }} />
+          <i className="iconfont icon-header_icon_search"></i>
         </div>
       </div>
 
