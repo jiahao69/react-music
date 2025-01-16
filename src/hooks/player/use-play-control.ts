@@ -46,7 +46,7 @@ export function usePlayerControl(audioRef: RefObject<HTMLAudioElement>) {
           break
         // 随机播放
         case playModeEnum.random:
-          // 生成一个随机数字
+          // 根据播放列表数量生成一个随机数
           const randomNum = (Math.random() * playlist.length) | 0
 
           setPlayIndex(randomNum)

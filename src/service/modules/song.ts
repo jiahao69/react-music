@@ -9,7 +9,6 @@ export function getSongDetail(params: { ids: string }) {
 }
 
 // 获取歌曲url
-
 export function getSongUrl(params: { id: number }) {
   return request.get({
     url: "/song/url",

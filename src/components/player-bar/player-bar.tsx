@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react"
+import { memo, useMemo, useState } from "react"
 import type { FC, ReactNode } from "react"
 import { Slider, Image } from "antd"
 import { motion } from "motion/react"
@@ -10,11 +10,15 @@ import { formatDuration } from "@/utils/format-duration"
 import { usePlayerBar } from "@/hooks/use-player-bar"
 import { getImg } from "@/utils/files"
 
+import PlaylistPopup from "@/components/playlist-popup/playlist-popup"
+
 interface IProps {
   children?: ReactNode
 }
 
 const PlayerBar: FC<IProps> = () => {
+  const [showPlaylistPopup, setShowPlaylistPopup] = useState(false)
+
   const {
     playlist,
     currentPlay,
@@ -87,7 +91,7 @@ const PlayerBar: FC<IProps> = () => {
               <Slider
                 style={{ margin: 0 }}
                 value={playProgress}
-                step={0.5}
+                step={0.1}
                 tooltip={{ open: false }}
                 onChange={onProgressChanging}
                 onChangeComplete={onProgressChanged}
@@ -117,17 +121,16 @@ const PlayerBar: FC<IProps> = () => {
           </div>
 
           <div className="bar-right-layout">
-            <div className="like-btn">
-              <i className="iconfont icon-bar_icon_heart"></i>
-            </div>
-
             {/* 播放模式 */}
             <div className="play-mode-btn" onClick={onPlayModeChange}>
               <i className={`iconfont ${modeIcon}`}></i>
             </div>
 
             {/* 播放列表 */}
-            <div className="playlist-btn">
+            <div
+              className="playlist-btn"
+              onClick={() => setShowPlaylistPopup(!showPlaylistPopup)}
+            >
               <i className="iconfont icon-bar_icon_playlistfuzhi"></i>
 
               <div className="playlist-num">{playlist.length}</div>
@@ -153,6 +156,8 @@ const PlayerBar: FC<IProps> = () => {
               />
             </div>
           </div>
+
+          {showPlaylistPopup && <PlaylistPopup />}
         </div>
       </motion.div>
 

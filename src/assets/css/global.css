@@ -36,10 +36,6 @@ img {
   content: "\e62d";
 }
 
-.icon-bar_icon_heart:before {
-  content: "\e61b";
-}
-
 .icon-bar_icon_pre:before {
   content: "\e61e";
 }

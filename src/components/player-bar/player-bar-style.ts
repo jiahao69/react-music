@@ -11,6 +11,7 @@ export const PlayerBarWrapper = styled.div`
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
 
     .player-bar-content {
+      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -94,6 +95,8 @@ export const PlayerBarWrapper = styled.div`
 
         .playlist-btn {
           position: relative;
+          cursor: pointer;
+
           .playlist-num {
             position: absolute;
             top: -4px;

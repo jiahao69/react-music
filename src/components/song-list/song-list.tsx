@@ -139,8 +139,6 @@ const SongList: FC<IProps> = (props) => {
                   ></i>
 
                   <i className="iconfont icon-playlist_icon_add"></i>
-
-                  <i className="iconfont icon-bar_icon_heart"></i>
                 </div>
               ) : (
                 <span style={{ color: "#666" }}>
