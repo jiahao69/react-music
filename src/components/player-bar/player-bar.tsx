@@ -150,7 +150,6 @@ const PlayerBar: FC<IProps> = () => {
               <Slider
                 className="volume-progress"
                 value={volumeProgress}
-                tooltip={{ open: false }}
                 onChange={onVolumeProgressChanging}
                 onChangeComplete={onVolumeProgressChanged}
               />

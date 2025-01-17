@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from "react"
+import { memo } from "react"
 import type { FC, ReactNode } from "react"
 import { Carousel } from "antd"
 
@@ -12,34 +12,26 @@ interface IProps {
 const HeaderCarousel: FC<IProps> = (props) => {
   const { banners } = props
 
-  const [blurBg, setBlurBg] = useState("")
-
-  useEffect(() => {
-    if (banners.length) {
-      const imageUrl = banners[0].imageUrl
-
-      setBlurBg(`${imageUrl}?imageView&blur=40x20`)
-    }
-  }, [banners])
-
-  const handleBeforeChange = (_: number, next: number) => {
-    const imageUrl = banners[next].imageUrl
-
-    setBlurBg(`${imageUrl}?imageView&blur=40x20`)
-  }
-
   return (
-    <HeaderCarouselWrapper $blurBg={blurBg}>
-      <Carousel arrows autoplay fade beforeChange={handleBeforeChange}>
+    <HeaderCarouselWrapper>
+      <Carousel autoplay fade>
         {banners.map((item, index) => (
-          <div
-            className="carousel-item"
-            key={index}
-            onClick={() => {
-              item.url && (location.href = item.url)
-            }}
-          >
-            <img src={item.imageUrl} alt="" />
+          <div key={index}>
+            <div
+              className="carousel-wrapper"
+              style={{
+                backgroundImage: `url(${item.imageUrl}?imageView&blur=40x20)`
+              }}
+            >
+              <div
+                className="carousel-item"
+                onClick={() => {
+                  item.url && (location.href = item.url)
+                }}
+              >
+                <img src={item.imageUrl} alt="" />
+              </div>
+            </div>
           </div>
         ))}
       </Carousel>
