@@ -1,4 +1,4 @@
-import { memo, useState, useEffect, useRef, Fragment } from "react"
+import { memo, useState, useEffect, useRef } from "react"
 import type { FC, ReactNode } from "react"
 import { Pagination, Spin } from "antd"
 
@@ -26,15 +26,15 @@ const Playlists: FC<IProps> = () => {
   const _getPlaylistCats = async () => {
     const { categories, sub } = await getPlaylistCats()
 
-    const cats = Object.keys(categories).map((key) => {
-      const list = sub.filter((item: any) => +item.category === +key)
+    const playlistCats = Object.keys(categories).map((key) => {
+      const list = sub.filter((item: any) => item.category === +key)
 
       return { name: categories[key], list }
     })
 
-    cats.unshift({ name: "默认", list: [{ name: "全部" }] })
+    playlistCats.unshift({ name: "默认", list: [{ name: "全部" }] })
 
-    setPlaylistCats(cats)
+    setPlaylistCats(playlistCats)
   }
 
   // 获取歌单列表
@@ -84,6 +84,8 @@ const Playlists: FC<IProps> = () => {
       <PlaylistFilter
         list={playlistCats}
         onItemClick={(cat) => {
+          if (cat === catRef.current) return
+
           catRef.current = cat
 
           setPlaylists([])
@@ -92,7 +94,7 @@ const Playlists: FC<IProps> = () => {
       />
 
       {!!playlists.length && (
-        <Fragment>
+        <>
           <div className="playlists">
             {playlists.map((item: any) => (
               <PlaylistItem item={item} key={item.id} />
@@ -109,7 +111,7 @@ const Playlists: FC<IProps> = () => {
               onChange={handlePageChange}
             />
           </div>
-        </Fragment>
+        </>
       )}
 
       {!!!playlists.length && (

@@ -13,6 +13,7 @@ import {
 import HeaderCarousel from "./c-cpts/header-carousel/header-carousel"
 import NavBar from "@/components/nav-bar/nav-bar"
 import PlaylistItem from "@/components/playlist-item/playlist-item"
+import LoginPanel from "@/components/login-panel/login-panel"
 
 interface IProps {
   children?: ReactNode
@@ -89,6 +90,8 @@ const Home: FC<IProps> = () => {
   return (
     <HomeWrapper>
       <HeaderCarousel banners={banners} />
+
+      <LoginPanel />
 
       {/* 推荐歌单 */}
       <div className="playlist-wrapper">

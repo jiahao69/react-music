@@ -16,6 +16,10 @@ export const PlaylistsFilterWrapper = styled.div`
     .current-catetory-name {
       margin-right: 8px;
     }
+
+    .iconfont {
+      font-size: 24px;
+    }
   }
 
   .catetory-panel {

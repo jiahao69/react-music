@@ -79,3 +79,7 @@ img {
 .icon-header_icon_search:before {
   content: "\e613";
 }
+
+.icon-bar_icon_arrow:before {
+  content: "\e618";
+}

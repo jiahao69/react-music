@@ -16,9 +16,9 @@ interface IProps {
 const PlaylistItem: FC<IProps> = (props) => {
   const { item } = props
 
-  const setPlaylist = useHomeStore((state) => state.setPlaylist)
-
   const navigate = useNavigate()
+
+  const setPlaylist = useHomeStore((state) => state.setPlaylist)
 
   const formatPlayCount = (count: number) => {
     if (count < 10000) return count
@@ -30,19 +30,19 @@ const PlaylistItem: FC<IProps> = (props) => {
     navigate(`/playlist-detail/${id}`)
   }
 
-  const onPlayMusic = async () => {
-    const { playlist } = await getPlaylistDetail({ id: item.id })
+  // 播放全部歌曲
+  const onPlayMusic = async (id: number) => {
+    const { playlist } = await getPlaylistDetail({ id })
 
     const tracks = playlist.tracks
 
     const ids = tracks.map((item: any) => item.id).join(",")
+    const { data: urls } = await getSongUrl({ id: ids })
 
-    const { data } = await getSongUrl({ id: ids })
-
-    const newList = tracks.map((item: any) => {
+    const newPlaylist = tracks.map((item: any) => {
       const { id, al, name, ar, dt } = item
 
-      const { time, url } = data.find((v: any) => v.id === item.id)
+      const { time, url } = urls.find((v: any) => v.id === item.id)
 
       return {
         id,
@@ -55,7 +55,7 @@ const PlaylistItem: FC<IProps> = (props) => {
       }
     })
 
-    setPlaylist(newList)
+    setPlaylist(newPlaylist)
   }
 
   return (
@@ -76,7 +76,8 @@ const PlaylistItem: FC<IProps> = (props) => {
             className="play-btn"
             onClick={(e) => {
               e.stopPropagation()
-              onPlayMusic()
+
+              onPlayMusic(item.id)
             }}
           >
             <i className="iconfont icon-icon_play_1"></i>
