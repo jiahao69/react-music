@@ -2,9 +2,8 @@ import { request } from ".."
 
 // 获取歌单列表
 export function getPlaylists(params: {
-  cat?: string
-  order?: string
-  limit?: number
+  cat: string
+  limit: number
   offset?: number
 }) {
   return request.get({

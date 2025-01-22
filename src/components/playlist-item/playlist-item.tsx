@@ -21,9 +21,11 @@ const PlaylistItem: FC<IProps> = (props) => {
   const setPlaylist = useHomeStore((state) => state.setPlaylist)
 
   const formatPlayCount = (count: number) => {
-    if (count < 10000) return count
+    if (count < 1e4) return count
 
-    return `${(count / 10000).toFixed(1)}万`
+    if (count >= 1e8) return `${(count / 1e8).toFixed(1)}亿`
+
+    return `${(count / 1e4).toFixed(1)}万`
   }
 
   const navigateToDetail = (id: number) => {

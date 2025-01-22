@@ -36,19 +36,23 @@ const SongList: FC<IProps> = (props) => {
 
     const { url, time } = data[0]
 
-    if (currentPlay?.id === id) return
+    if (currentPlay?.id === id || playlist.map((item) => item.id).includes(id))
+      return
 
-    setPlaylist([
-      {
-        id,
-        picUrl: al.picUrl,
-        name,
-        artist: ar[0].name,
-        duration: dt,
-        playDuration: time,
-        playUrl: url
-      }
-    ])
+    setPlaylist(
+      [
+        {
+          id,
+          picUrl: al.picUrl,
+          name,
+          artist: ar[0].name,
+          duration: dt,
+          playDuration: time,
+          playUrl: url
+        }
+      ],
+      false
+    )
   }
 
   return (

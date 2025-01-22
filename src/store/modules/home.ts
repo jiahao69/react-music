@@ -23,7 +23,7 @@ type Actions = {
   setPlayIndex: (index: number) => void
   setPlayStatus: (status: boolean) => void
   setPlayMode: (mode: number) => void
-  setPlaylist: (list: IPlaylist[]) => void
+  setPlaylist: (list: IPlaylist[], replace?: boolean) => void
 }
 
 export const useHomeStore = create<State & Actions>((set) => ({
@@ -36,15 +36,16 @@ export const useHomeStore = create<State & Actions>((set) => ({
   // 播放列表
   playlist: [],
 
-  setPlayIndex: (index: number) => set(() => ({ playIndex: index })),
+  setPlayIndex: (index) => set(() => ({ playIndex: index })),
 
-  setPlayStatus: (status: boolean) => set(() => ({ playStatus: status })),
+  setPlayStatus: (status) => set(() => ({ playStatus: status })),
 
-  setPlayMode: (mode: number) => set(() => ({ playMode: mode })),
+  setPlayMode: (mode) => set(() => ({ playMode: mode })),
 
   // 设置播放列表
-  setPlaylist: (list: IPlaylist[]) =>
-    set((state) => ({
-      playlist: [...list, ...state.playlist]
-    }))
+  setPlaylist: (list, replace = true) => {
+    replace
+      ? set(() => ({ playlist: list }))
+      : set((state) => ({ playlist: [...list, ...state.playlist] }))
+  }
 }))
