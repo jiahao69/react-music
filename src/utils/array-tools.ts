@@ -1,9 +1,9 @@
 // 数组相关的工具函数
 
 /**
- * 移动指定的数组元素到首位
+ * 移动数组指定元素到首位
  */
-export const moveArrayElementToFisrt = <T>(
+export const moveArrayElementToFirst = <T>(
   arr: T[],
   condition: (item: T) => boolean
 ) => {
