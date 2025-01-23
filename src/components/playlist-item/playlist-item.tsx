@@ -28,9 +28,7 @@ const PlaylistItem: FC<IProps> = (props) => {
     return `${(count / 1e4).toFixed(1)}万`
   }
 
-  const navigateToDetail = (id: number) => {
-    navigate(`/playlist-detail/${id}`)
-  }
+  const navigateToDetail = (id: number) => navigate(`/playlist-detail/${id}`)
 
   // 播放全部歌曲
   const onPlayMusic = async (id: number) => {

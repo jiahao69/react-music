@@ -3,9 +3,9 @@ import type { FC, ReactNode } from "react"
 import { Table, ConfigProvider } from "antd"
 
 import { SongListWrapper } from "./song-list-style"
-import { getSongUrl } from "@/service/modules"
 import { useHomeStore } from "@/store/modules"
 import { formatDuration } from "@/utils/format-duration"
+import { usePlayMusic } from "@/hooks/use-play-music"
 
 interface IProps {
   children?: ReactNode
@@ -25,35 +25,9 @@ const SongList: FC<IProps> = (props) => {
   const playIndex = useHomeStore((state) => state.playIndex)
   const playlist = useHomeStore((state) => state.playlist)
 
-  const setPlaylist = useHomeStore((state) => state.setPlaylist)
-
   const currentPlay = playlist[playIndex]
 
-  const handlePlay = async (record: any) => {
-    const { id, al, name, ar, dt } = record
-
-    const { data } = await getSongUrl({ id })
-
-    const { url, time } = data[0]
-
-    if (currentPlay?.id === id || playlist.map((item) => item.id).includes(id))
-      return
-
-    setPlaylist(
-      [
-        {
-          id,
-          picUrl: al.picUrl,
-          name,
-          artist: ar[0].name,
-          duration: dt,
-          playDuration: time,
-          playUrl: url
-        }
-      ],
-      false
-    )
-  }
+  const { handleSigleSongPlay } = usePlayMusic(currentPlay)
 
   return (
     <SongListWrapper>
@@ -139,7 +113,7 @@ const SongList: FC<IProps> = (props) => {
                 <div className="operate-btns">
                   <i
                     className="iconfont icon-icon_play"
-                    onClick={() => handlePlay(record)}
+                    onClick={() => handleSigleSongPlay(record)}
                   ></i>
 
                   <i className="iconfont icon-playlist_icon_add"></i>

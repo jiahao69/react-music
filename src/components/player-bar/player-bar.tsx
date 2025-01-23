@@ -20,6 +20,12 @@ interface IProps {
   children?: ReactNode
 }
 
+const PLAY_MODE_ICONS = {
+  [playModeEnum.order]: "icon-bar_icon_list",
+  [playModeEnum.loop]: "icon-bar_icon_loop",
+  [playModeEnum.random]: "icon-bar_icon_random"
+} as const
+
 const PlayerBar: FC<IProps> = () => {
   const [showPlaylistPopup, setShowPlaylistPopup] = useState(false)
 
@@ -42,17 +48,10 @@ const PlayerBar: FC<IProps> = () => {
     onPlayModeChange
   } = usePlayerBar()
 
-  const modeIcon = useMemo(() => {
-    const mode = playMode % 3
-
-    if (mode === playModeEnum.order) {
-      return "icon-bar_icon_list"
-    } else if (mode === playModeEnum.loop) {
-      return "icon-bar_icon_loop"
-    } else if (mode === playModeEnum.random) {
-      return "icon-bar_icon_random"
-    }
-  }, [playMode])
+  const modeIcon = useMemo(
+    () => PLAY_MODE_ICONS[(playMode % 3) as keyof typeof PLAY_MODE_ICONS],
+    [playMode]
+  )
 
   return (
     <BarMotionWrapper
@@ -93,7 +92,7 @@ const PlayerBar: FC<IProps> = () => {
             <Slider
               style={{ margin: 0 }}
               value={playProgress}
-              step={0.1}
+              step={0.5}
               tooltip={{ open: false }}
               onChange={onProgressChanging}
               onChangeComplete={onProgressChanged}
@@ -157,11 +156,11 @@ const PlayerBar: FC<IProps> = () => {
             />
           </div>
         </BarRightLayout>
-
-        {showPlaylistPopup && <PlaylistPopup />}
       </div>
 
-      <audio autoPlay src={currentPlay.playUrl} ref={audioRef}></audio>
+      {showPlaylistPopup && <PlaylistPopup />}
+
+      <audio autoPlay src={currentPlay.playUrl} ref={audioRef} />
     </BarMotionWrapper>
   )
 }
