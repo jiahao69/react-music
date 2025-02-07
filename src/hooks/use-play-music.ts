@@ -1,6 +1,6 @@
 import { useHomeStore } from "@/store/modules"
 import { getSongUrl } from "@/service/modules"
-import { moveArrayElementToFirst } from "@/utils/array-tools"
+import { moveArrayElToFirst } from "@/utils/array-helper"
 import type { IPlaylist } from "@/store/modules"
 
 export function usePlayMusic(currentPlay: IPlaylist) {
@@ -19,7 +19,7 @@ export function usePlayMusic(currentPlay: IPlaylist) {
     // 该歌曲已在播放列表中
     if (playlist.map((item) => item.id).includes(id)) {
       // 移动该歌曲到播放列表首位
-      const newPlaylist = moveArrayElementToFirst<IPlaylist>(
+      const newPlaylist = moveArrayElToFirst<IPlaylist>(
         playlist,
         (item) => item.id === id
       )

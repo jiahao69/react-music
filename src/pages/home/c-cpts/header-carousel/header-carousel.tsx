@@ -14,7 +14,7 @@ const HeaderCarousel: FC<IProps> = (props) => {
 
   return (
     <HeaderCarouselWrapper>
-      <Carousel autoplay fade>
+      <Carousel autoplay fade arrows>
         {banners.map((item, index) => (
           <div key={index}>
             <div
@@ -23,12 +23,7 @@ const HeaderCarousel: FC<IProps> = (props) => {
                 backgroundImage: `url(${item.imageUrl}?imageView&blur=40x20)`
               }}
             >
-              <div
-                className="carousel-item"
-                onClick={() => {
-                  item.url && (location.href = item.url)
-                }}
-              >
+              <div className="carousel-item">
                 <img src={item.imageUrl} alt="" />
               </div>
             </div>

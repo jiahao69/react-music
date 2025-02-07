@@ -5,7 +5,6 @@ export const PlaylistPopupWrapper = styled.div`
   bottom: 80px;
   right: 192px;
   width: 512px;
-  height: 100px;
   padding: 34px 0 20px;
   z-index: 1;
   background-color: #fff;

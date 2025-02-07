@@ -15,7 +15,7 @@ export const shuffle = <T>(arr: T[]) => {
 /**
  * 移动数组指定元素到首位
  */
-export const moveArrayElementToFirst = <T>(
+export const moveArrayElToFirst = <T>(
   arr: T[],
   condition: (item: T) => boolean
 ) => {
