@@ -5,11 +5,26 @@ import { playModeEnum } from "@/constant/enum"
 
 export function usePlayerControl(audioRef: RefObject<HTMLAudioElement>) {
   const playIndex = useHomeStore((state) => state.playIndex)
+  const playStatus = useHomeStore((state) => state.playStatus)
   const playMode = useHomeStore((state) => state.playMode)
   const playlist = useHomeStore((state) => state.playlist)
 
   const setPlayIndex = useHomeStore((state) => state.setPlayIndex)
+  const setPlayStatus = useHomeStore((state) => state.setPlayStatus)
   const setPlayMode = useHomeStore((state) => state.setPlayMode)
+
+  // UI同步播放状态
+  const onPlayStatusChange = useCallback(
+    () => setPlayStatus(!audioRef.current?.paused),
+    []
+  )
+
+  // 播放暂停控制
+  const play = useCallback(() => {
+    const audio = audioRef.current
+
+    playStatus ? audio?.pause() : audio?.play()
+  }, [playStatus])
 
   // 上一首
   const prev = useCallback(() => {
@@ -27,29 +42,44 @@ export function usePlayerControl(audioRef: RefObject<HTMLAudioElement>) {
     setPlayIndex(index)
   }, [playIndex, playlist.length])
 
+  // 循环播放
+  const loop = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0
+      audioRef.current.play()
+    }
+  }
+
   // 切换歌曲(上一首或下一首)
   const switchSongs = useCallback(
     (isNext: boolean) => {
       switch (playMode) {
         // 顺序播放
         case playModeEnum.order:
-          isNext ? next() : prev()
+          if (playlist.length > 1) {
+            isNext ? next() : prev()
+          } else {
+            // 播放列表中只有一首歌时循环播放
+            loop()
+          }
 
           break
         // 单曲循环
         case playModeEnum.loop:
-          if (audioRef.current) {
-            audioRef.current.currentTime = 0
-            audioRef.current.play()
-          }
+          loop()
 
           break
         // 随机播放
         case playModeEnum.random:
-          // 根据播放列表数量生成一个随机数
-          const randomNum = (Math.random() * playlist.length) | 0
+          if (playlist.length > 1) {
+            // 根据播放列表数量生成一个随机数
+            const randomNum = (Math.random() * playlist.length) | 0
 
-          setPlayIndex(randomNum)
+            setPlayIndex(randomNum)
+          } else {
+            // 播放列表中只有一首歌时循环播放
+            loop()
+          }
 
           break
       }
@@ -69,6 +99,9 @@ export function usePlayerControl(audioRef: RefObject<HTMLAudioElement>) {
 
   return {
     playMode,
+    playStatus,
+    onPlayStatusChange,
+    play,
     switchSongs,
     onPlayModeChange,
     onPlayEnded

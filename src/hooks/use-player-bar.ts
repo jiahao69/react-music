@@ -1,20 +1,19 @@
-import { useEffect } from "react"
+import { useRef, useEffect } from "react"
 
 import { useHomeStore } from "@/store/modules"
-import { useAudio } from "@/hooks/player/use-audio"
 import { useProgress } from "@/hooks/player/use-progress"
-import { usePlayerControl } from "@/hooks/player/use-play-control"
+import { usePlayerControl } from "@/hooks/player/use-player-control"
 import { useVolume } from "@/hooks/player/use-volume"
 
 export function usePlayerBar() {
+  const audioRef = useRef<HTMLAudioElement>(null)
+
   const playIndex = useHomeStore((state) => state.playIndex)
   const playlist = useHomeStore((state) => state.playlist)
 
   const currentPlay = playlist[playIndex]
 
-  const { audioRef, playStatus, play, onPlayStatusChange } = useAudio()
-
-  // 进度控制
+  // 处理播放进度
   const {
     currentTime,
     playProgress,
@@ -23,11 +22,18 @@ export function usePlayerBar() {
     onProgressChanged
   } = useProgress(currentPlay, audioRef)
 
-  // 处理播放器控制功能
-  const { playMode, switchSongs, onPlayModeChange, onPlayEnded } =
-    usePlayerControl(audioRef)
+  // 处理播放器基本功能(播放暂停 切换歌曲 切换模式)
+  const {
+    playMode,
+    playStatus,
+    onPlayStatusChange,
+    play,
+    switchSongs,
+    onPlayModeChange,
+    onPlayEnded
+  } = usePlayerControl(audioRef)
 
-  // 音量控制
+  // 处理音量调节
   const {
     volumeProgress,
     onVolumeProgressChanging,

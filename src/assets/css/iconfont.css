@@ -84,3 +84,7 @@
 .icon-bar_icon_arrow:before {
   content: "\e618";
 }
+
+.icon-list_clean_n:before {
+  content: "\e639";
+}

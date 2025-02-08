@@ -8,12 +8,6 @@
   user-select: none;
 }
 
-/* Webkit浏览器（Chrome/Safari） */
-::-webkit-scrollbar {
-  width: 0; /* 隐藏滚动条 */
-  background: transparent; /* 透明滚动条 */
-}
-
 html,
 body,
 #root {
